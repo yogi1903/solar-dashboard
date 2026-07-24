@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Hero mockup — Greentek Alliance Solar Monitor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #f3f1ea; --ink: #0d201d; --muted: #5a6e6a; --faint: #71807d;
+    --gold: #c9a460; --deep-gold: #8a6826; --pale-gold: #f4ead4;
+    --teal: #237a6e; --bright-teal: #16b8a8; --pale-teal: #e2eeed;
+    --border: #e8e4d8;
+  }
+  * { margin: 0; box-sizing: border-box; }
+  body {
+    background: #e9e6dd; color: var(--ink);
+    font-family: Inter, -apple-system, sans-serif;
+    padding: 32px 16px 64px;
+  }
+  h1 { font-family: 'Bricolage Grotesque', Inter, sans-serif; font-size: 22px; text-align: center; }
+  .sub { text-align: center; color: var(--muted); font-size: 13px; margin-top: 6px; }
+  .row { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; margin-top: 36px; }
+  .option { width: 390px; }
+  .option-label {
+    font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--deep-gold); margin-bottom: 10px; text-align: center;
+  }
+  .option-note { font-size: 12px; color: var(--faint); text-align: center; margin-top: 10px; line-height: 1.5; }
+  .phone {
+    background: var(--bg); border-radius: 32px; border: 1px solid var(--border);
+    box-shadow: 0 12px 40px rgba(13,32,29,0.10);
+    padding: 20px; min-height: 300px;
+  }
+  .card {
+    background: #fff; border: 1px solid var(--border); border-radius: 18px;
+    box-shadow: 0 2px 14px rgba(13,32,29,0.05); padding: 24px;
+  }
+  .num { font-family: 'Bricolage Grotesque', Inter, sans-serif; font-variant-numeric: tabular-nums; }
+  .label { font-size: 12px; font-weight: 500; color: var(--muted); }
+  .sun-badge {
+    width: 44px; height: 44px; border-radius: 50%; background: var(--pale-gold);
+    display: flex; align-items: center; justify-content: center; color: var(--gold); flex-shrink: 0;
+  }
+  .bar { height: 6px; border-radius: 999px; background: var(--pale-teal); overflow: hidden; }
+  .bar > div { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--gold), var(--deep-gold)); }
+  .divider-v { width: 1px; background: var(--border); align-self: stretch; }
+  .divider-h { height: 1px; background: var(--border); margin: 16px 0; }
+  .live-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--bright-teal); display: inline-block; }
+  .teal { color: var(--teal); }
+  .gold-t { color: var(--deep-gold); }
+  .next-card {
+    margin-top: 14px; background: #fff; border: 1px solid var(--border); border-radius: 18px;
+    box-shadow: 0 2px 14px rgba(13,32,29,0.05); padding: 16px 20px;
+    font-size: 13px; color: var(--faint);
+  }
+</style>
+</head>
+<body>
+
+<h1>Hero section — combined "Producing now" + "Today"</h1>
+<p class="sub">Three options, same data: 4.2 kW live · 17.4 kWh today · ₹261 saved · 3.5 peak sun hours · 84% of 5 kW</p>
+
+<div class="row">
+
+  <!-- ── OPTION A ── -->
+  <div class="option">
+    <p class="option-label">Option A · Split hero</p>
+    <div class="phone">
+      <div class="card" style="display:flex; align-items:center; gap:18px;">
+        <div style="flex:1; text-align:center;">
+          <div class="sun-badge" style="margin:0 auto 8px;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="4.2" fill="currentColor" stroke="none"/><path d="M12 2.5v2.4M12 19.1v2.4M2.5 12h2.4M19.1 12h2.4M5 5l1.7 1.7M17.3 17.3L19 19M19 5l-1.7 1.7M6.7 17.3L5 19"/></svg>
+          </div>
+          <p class="num" style="font-size:34px; font-weight:500;">4.2<span style="font-size:15px; color:var(--muted);"> kW</span></p>
+          <p class="label" style="margin-top:2px;">Producing now</p>
+          <div class="bar" style="margin-top:10px;"><div style="width:84%"></div></div>
+          <p style="font-size:11px; color:var(--faint); margin-top:5px;">84% of 5 kW</p>
+        </div>
+        <div class="divider-v"></div>
+        <div style="flex:1; text-align:center;">
+          <p class="label" style="margin-bottom:8px;">Today</p>
+          <p class="num" style="font-size:34px; font-weight:500;">17.4<span style="font-size:15px; color:var(--muted);"> kWh</span></p>
+          <p class="label" style="margin-top:2px;">3.5 peak sun hours</p>
+          <p class="num teal" style="font-size:17px; font-weight:600; margin-top:10px;">₹261 saved</p>
+        </div>
+      </div>
+      <div class="next-card">Next card below (forecast / curve)…</div>
+    </div>
+    <p class="option-note">Both numbers share the spotlight. Most compact — saves ~90px of vertical space. Symmetrical, calm.</p>
+  </div>
+
+  <!-- ── OPTION B ── -->
+  <div class="option">
+    <p class="option-label">Option B · Live headline + stats strip</p>
+    <div class="phone">
+      <div class="card">
+        <div style="display:flex; align-items:center; gap:14px;">
+          <div class="sun-badge">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="4.2" fill="currentColor" stroke="none"/><path d="M12 2.5v2.4M12 19.1v2.4M2.5 12h2.4M19.1 12h2.4M5 5l1.7 1.7M17.3 17.3L19 19M19 5l-1.7 1.7M6.7 17.3L5 19"/></svg>
+          </div>
+          <div style="flex:1;">
+            <p class="num" style="font-size:32px; font-weight:500; line-height:1;">4.2<span style="font-size:15px; color:var(--muted);"> kW</span></p>
+            <p class="label" style="margin-top:3px;"><span class="live-dot" style="margin-right:5px;"></span>Producing now · 84% of 5 kW</p>
+          </div>
+        </div>
+        <div class="divider-h"></div>
+        <div style="display:flex; text-align:center;">
+          <div style="flex:1;">
+            <p class="num" style="font-size:20px; font-weight:600;">17.4</p>
+            <p class="label" style="font-size:11px;">kWh today</p>
+          </div>
+          <div style="flex:1; border-left:1px solid var(--border);">
+            <p class="num teal" style="font-size:20px; font-weight:600;">₹261</p>
+            <p class="label" style="font-size:11px;">saved today</p>
+          </div>
+          <div style="flex:1; border-left:1px solid var(--border);">
+            <p class="num" style="font-size:20px; font-weight:600;">3.5</p>
+            <p class="label" style="font-size:11px;">sun hours</p>
+          </div>
+        </div>
+      </div>
+      <div class="next-card">Next card below (forecast / curve)…</div>
+    </div>
+    <p class="option-note">Live power keeps hero status; today becomes a stat strip. Saves the two separate "Energy / Saved" cards entirely.</p>
+  </div>
+
+  <!-- ── OPTION C ── -->
+  <div class="option">
+    <p class="option-label">Option C · Today is the headline</p>
+    <div class="phone">
+      <div class="card" style="text-align:center;">
+        <p class="label">Energy today</p>
+        <p class="num" style="font-size:46px; font-weight:500; line-height:1.05; margin-top:4px;">17.4<span style="font-size:20px; color:var(--muted);"> kWh</span></p>
+        <p class="num teal" style="font-size:16px; font-weight:600; margin-top:4px;">₹261 saved · 3.5 sun hours</p>
+        <div style="display:inline-flex; align-items:center; gap:7px; background:var(--pale-teal); border-radius:999px; padding:7px 14px; margin-top:14px;">
+          <span class="live-dot"></span>
+          <span style="font-size:13px; font-weight:600; color:var(--teal);">Producing 4.2 kW now</span>
+        </div>
+        <div class="bar" style="margin-top:14px;"><div style="width:84%"></div></div>
+      </div>
+      <div class="next-card">Next card below (forecast / curve)…</div>
+    </div>
+    <p class="option-note">Inverts the hierarchy: today's total (what they check every morning) leads, live power becomes a pill. Most "fitness-app" feeling.</p>
+  </div>
+
+</div>
+
+<h1 style="margin-top:64px;">More variations</h1>
+<p class="sub">B family — live power leads · C family — today's total leads</p>
+
+<div class="row">
+
+  <!-- ── OPTION B2 ── -->
+  <div class="option">
+    <p class="option-label">B2 · Centered live + icon stats</p>
+    <div class="phone">
+      <div class="card" style="text-align:center;">
+        <div class="sun-badge" style="margin:0 auto 8px;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="4.2" fill="currentColor" stroke="none"/><path d="M12 2.5v2.4M12 19.1v2.4M2.5 12h2.4M19.1 12h2.4M5 5l1.7 1.7M17.3 17.3L19 19M19 5l-1.7 1.7M6.7 17.3L5 19"/></svg>
+        </div>
+        <p class="num" style="font-size:40px; font-weight:500; line-height:1;">4.2<span style="font-size:18px; color:var(--muted);"> kW</span></p>
+        <p class="label" style="margin-top:4px;"><span class="live-dot" style="margin-right:5px;"></span>Producing now · 84% of 5 kW</p>
+        <div class="divider-h"></div>
+        <div style="display:flex; text-align:center;">
+          <div style="flex:1;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8a6826" stroke-width="2" stroke-linecap="round" style="margin-bottom:2px;"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg>
+            <p class="num" style="font-size:19px; font-weight:600;">17.4 <span style="font-size:11px; color:var(--muted);">kWh</span></p>
+            <p class="label" style="font-size:11px;">today</p>
+          </div>
+          <div style="flex:1; border-left:1px solid var(--border);">
+            <p style="font-size:13px; color:#8a6826; font-weight:700; margin-bottom:2px;">₹</p>
+            <p class="num teal" style="font-size:19px; font-weight:600;">261</p>
+            <p class="label" style="font-size:11px;">saved</p>
+          </div>
+          <div style="flex:1; border-left:1px solid var(--border);">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8a6826" stroke-width="1.8" stroke-linecap="round" style="margin-bottom:2px;"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg>
+            <p class="num" style="font-size:19px; font-weight:600;">3.5</p>
+            <p class="label" style="font-size:11px;">sun hours</p>
+          </div>
+        </div>
+      </div>
+      <div class="next-card">Next card below…</div>
+    </div>
+    <p class="option-note">Like B but symmetrical and icon-led — the stats strip reads faster once icons are learned.</p>
+  </div>
+
+  <!-- ── OPTION B3 ── -->
+  <div class="option">
+    <p class="option-label">B3 · Editorial left-aligned</p>
+    <div class="phone">
+      <div class="card">
+        <p style="font-size:11px; font-weight:600; letter-spacing:0.16em; color:var(--deep-gold);">PRODUCING NOW</p>
+        <p class="num" style="font-size:42px; font-weight:500; line-height:1.05; margin-top:2px;">4.2<span style="font-size:18px; color:var(--muted);"> kW</span></p>
+        <div class="bar" style="margin-top:12px;"><div style="width:84%"></div></div>
+        <p style="font-size:11px; color:var(--faint); margin-top:5px;">84% of your 5 kW system</p>
+        <div class="divider-h"></div>
+        <div style="display:flex; justify-content:space-between; align-items:baseline;">
+          <p class="num" style="font-size:18px; font-weight:600;">17.4 <span style="font-size:12px; color:var(--muted);">kWh today</span></p>
+          <p class="num teal" style="font-size:18px; font-weight:600;">₹261</p>
+        </div>
+        <p style="font-size:12px; color:var(--faint); margin-top:6px;">3.5 peak sun hours · peak 2.3 kW at 12:10</p>
+      </div>
+      <div class="next-card">Next card below…</div>
+    </div>
+    <p class="option-note">Quiet, typographic, no icons — the "newspaper" version. Reads top-to-bottom in one glance path.</p>
+  </div>
+
+  <!-- ── OPTION B4 ── -->
+  <div class="option">
+    <p class="option-label">B4 · Two numbers, one row</p>
+    <div class="phone">
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+          <div>
+            <p class="label"><span class="live-dot" style="margin-right:5px;"></span>Producing now</p>
+            <p class="num" style="font-size:30px; font-weight:500; margin-top:4px;">4.2<span style="font-size:14px; color:var(--muted);"> kW</span></p>
+          </div>
+          <div style="text-align:right;">
+            <p class="label">Today</p>
+            <p class="num" style="font-size:30px; font-weight:500; margin-top:4px;">17.4<span style="font-size:14px; color:var(--muted);"> kWh</span></p>
+          </div>
+        </div>
+        <div class="bar" style="margin-top:14px;"><div style="width:84%"></div></div>
+        <div style="display:flex; justify-content:space-between; margin-top:8px;">
+          <p style="font-size:11px; color:var(--faint);">84% of system</p>
+          <p class="num teal" style="font-size:13px; font-weight:600;">₹261 saved</p>
+        </div>
+      </div>
+      <div class="next-card">Next card below…</div>
+    </div>
+    <p class="option-note">Flattest option — no dividers, both numbers equal, savings pinned to the bar. Maximum density, minimal chrome.</p>
+  </div>
+
+</div>
+
+<div class="row">
+
+  <!-- ── OPTION C2 ── -->
+  <div class="option">
+    <p class="option-label">C2 · Today + daily goal</p>
+    <div class="phone">
+      <div class="card" style="position:relative;">
+        <div style="position:absolute; top:18px; right:18px; display:inline-flex; align-items:center; gap:6px; background:var(--pale-teal); border-radius:999px; padding:5px 11px;">
+          <span class="live-dot"></span>
+          <span style="font-size:12px; font-weight:600; color:var(--teal);">4.2 kW</span>
+        </div>
+        <p class="label">Energy today</p>
+        <p class="num" style="font-size:44px; font-weight:500; line-height:1.05; margin-top:4px;">17.4<span style="font-size:19px; color:var(--muted);"> kWh</span></p>
+        <p class="num teal" style="font-size:16px; font-weight:600; margin-top:4px;">₹261 saved</p>
+        <div class="bar" style="margin-top:16px;"><div style="width:83%"></div></div>
+        <div style="display:flex; justify-content:space-between; margin-top:6px;">
+          <p style="font-size:11px; color:var(--faint);">83% of a typical July day</p>
+          <p style="font-size:11px; color:var(--faint);">≈21 kWh expected</p>
+        </div>
+      </div>
+      <div class="next-card">Next card below…</div>
+    </div>
+    <p class="option-note">Adds context: today measured against expectation, not just a raw number. Live pill floats top-right. Answers "is today good?" instantly.</p>
+  </div>
+
+  <!-- ── OPTION C3 ── -->
+  <div class="option">
+    <p class="option-label">C3 · Statement card</p>
+    <div class="phone">
+      <div class="card" style="text-align:center;">
+        <p class="label">Energy today</p>
+        <p class="num" style="font-size:50px; font-weight:500; line-height:1.05; margin-top:2px;">17.4</p>
+        <p style="font-size:15px; color:var(--muted); margin-top:-2px;">kWh</p>
+        <p class="num gold-t" style="font-size:20px; font-weight:600; margin-top:8px;">₹261 saved</p>
+        <p style="font-size:12px; color:var(--faint); margin-top:6px;">3.5 sun hours · peak 2.3 kW at 12:10</p>
+        <div class="divider-h"></div>
+        <p style="font-size:13px; color:var(--teal); font-weight:600;"><span class="live-dot" style="margin-right:6px;"></span>Producing 4.2 kW — 84% of your system</p>
+      </div>
+      <div class="next-card">Next card below…</div>
+    </div>
+    <p class="option-note">The most dramatic — one giant number, gold savings, live status demoted to a footer line. Very "Apple Fitness rings" energy.</p>
+  </div>
+
+  <!-- ── OPTION C4 ── -->
+  <div class="option">
+    <p class="option-label">C4 · Live pill header</p>
+    <div class="phone">
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <div style="display:inline-flex; align-items:center; gap:6px; background:var(--pale-teal); border-radius:999px; padding:6px 12px;">
+            <span class="live-dot"></span>
+            <span style="font-size:12px; font-weight:600; color:var(--teal);">Producing 4.2 kW</span>
+          </div>
+          <p class="label">Today</p>
+        </div>
+        <p class="num" style="font-size:46px; font-weight:500; line-height:1.05; margin-top:12px;">17.4<span style="font-size:19px; color:var(--muted);"> kWh</span></p>
+        <div style="display:flex; justify-content:space-between; align-items:baseline; margin-top:2px;">
+          <p class="num teal" style="font-size:17px; font-weight:600;">₹261 saved</p>
+          <p style="font-size:12px; color:var(--faint);">3.5 sun hours</p>
+        </div>
+        <div class="bar" style="margin-top:14px;"><div style="width:84%"></div></div>
+        <p style="font-size:11px; color:var(--faint); margin-top:5px;">System running at 84% capacity</p>
+      </div>
+      <div class="next-card">Next card below…</div>
+    </div>
+    <p class="option-note">Hybrid: live status as a pill in the header row, today's total owns the body. The capacity bar does double duty for both numbers.</p>
+  </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,53 @@
+{
+  "$meta": {
+    "project": "Greentek Alliance",
+    "description": "Consolidated design theme (implemented tokens). Saved 2026-07-23 as project reference.",
+    "note": "--gt-* (spec) and --brand-* (implemented) are two names for the same palette."
+  },
+  "fonts": {
+    "heading": { "family": "Bricolage Grotesque", "weights": [500, 600, 700], "applies_to": "headings, KPI numerals, tier names" },
+    "body": { "family": "Inter", "weights": [400, 500, 600, 700], "applies_to": "body, labels, tables, helper text" },
+    "numbers": { "feature": "tabular-nums", "tailwind": "[font-variant-numeric:tabular-nums]" }
+  },
+  "brand_palette": {
+    "--brand": "#237a6e", "--brand-ink": "#0d201d", "--brand-muted": "#5a6e6a", "--brand-subtle": "#8a9a97",
+    "--brand-forest": "#082421", "--brand-gold": "#8a6826", "--brand-gold-deep": "#6d511b",
+    "--brand-gold-soft": "#f4ead4", "--brand-gold-light": "#dcc086", "--brand-gold-metal": "#c9a460",
+    "--brand-canvas": "#f3f1ea", "--brand-surface": "#f7f7f3", "--brand-teal-soft": "#eaf5f2",
+    "--brand-danger": "#b42318"
+  },
+  "shadcn_tokens_hsl": {
+    "--background": "48 25% 94%", "--foreground": "171 42% 9%",
+    "--card": "0 0% 100%", "--card-foreground": "171 42% 9%",
+    "--popover": "0 0% 100%", "--popover-foreground": "171 42% 9%",
+    "--primary": "176 59% 10%", "--primary-foreground": "0 0% 100%",
+    "--secondary": "40 48% 88%", "--secondary-foreground": "40 57% 34%",
+    "--muted": "165 10% 95%", "--muted-foreground": "168 10% 39%",
+    "--accent": "172 28% 91%", "--accent-foreground": "172 55% 25%",
+    "--destructive": "4 75% 40%", "--destructive-foreground": "0 0% 98%",
+    "--border": "168 14% 87%", "--input": "168 14% 84%", "--ring": "174 79% 40%",
+    "--chart-1": "174 79% 40%", "--chart-2": "40 51% 58%", "--chart-3": "172 55% 31%",
+    "--chart-4": "168 10% 39%", "--chart-5": "176 59% 10%"
+  },
+  "status": { "success": "#16b8a8", "warning": "#c9a460", "danger": "#b42318", "info": "#237a6e" },
+  "borders_rings": { "--gt-border": "rgba(13,32,29,0.10)", "--gt-border-strong": "rgba(13,32,29,0.16)", "--gt-ring": "rgba(22,184,168,0.35)" },
+  "radius": { "--radius": "18px", "cards": "rounded-[18px]", "buttons": "12px", "small": "rounded-xl", "pill": "rounded-full" },
+  "shadows": {
+    "premium_card": "0 2px 4px rgba(10,23,21,.04), 0 8px 24px -6px rgba(10,23,21,.10)",
+    "--gt-shadow-1": "0 1px 0 rgba(13,32,29,0.06), 0 8px 24px rgba(13,32,29,0.08)",
+    "--gt-shadow-2": "0 1px 0 rgba(13,32,29,0.08), 0 16px 40px rgba(13,32,29,0.10)"
+  },
+  "focus": "outline 3px solid rgba(22,184,168,.28); outline-offset 2px (or ring-4 gt-ring)",
+  "layout": {
+    "spacing_base": "8px grid",
+    "page_padding": { "mobile": "px-4", "desktop": "px-6 lg:px-8", "section_gap": "space-y-6" },
+    "mobile_first": { "baseline_width_px": 390, "tap_targets": "44-48px" },
+    "glass_topbar": "backdrop-blur-xl bg-white/55 border gt-border shadow-1",
+    "responsive_tables": "desktop table / stacked cards <768px"
+  },
+  "pwa": { "theme_color": "#061e1c" },
+  "rules": [
+    "Parchment bg #f3f1ea, white cards, no purple, gradients <20% viewport decorative only",
+    "Champagne = active/premium accents; teal = positive/primary; forest = hero/primary buttons"
+  ]
+}

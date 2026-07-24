@@ -1,0 +1,104 @@
+{
+  "app": {
+    "name": "Greentek Alliance",
+    "type": "mobile-first PWA + web role-based dashboards",
+    "primary_success_actions": [
+      "Create referral in <15s (bottom sheet)",
+      "Track referral pipeline + trust signals",
+      "Understand rewards + tier progress transparently",
+      "Admin: approve/reject rewards quickly with audit trail",
+      "Admin: edit/version Reward Rules safely"
+    ],
+    "mobile_first_target": {
+      "baseline_width_px": 390,
+      "thumb_zones": "Primary actions pinned to bottom area; avoid top-right-only actions",
+      "tap_targets": "min-h-11 (44px), ideally h-12 (48px)"
+    }
+  },
+  "brand_attributes": ["premium", "trustworthy", "operationally efficient", "quietly luxurious (metallic tiers, glass topbar)", "data-forward but warm (champagne accents on parchment background)"],
+  "typography": {
+    "fonts": {
+      "heading": { "family": "Bricolage Grotesque", "source": "Google Fonts", "usage": "All headings, KPI numerals in hero tiles, tier names" },
+      "body": { "family": "Inter", "source": "Google Fonts", "usage": "Body, labels, tables, helper text" },
+      "numbers": { "feature": "tabular-nums", "usage": "₹ amounts, points, counts, KPIs", "tailwind": "[font-variant-numeric:tabular-nums]" }
+    },
+    "scale_tailwind": {
+      "h1": "text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight",
+      "h2": "text-base md:text-lg font-medium text-[color:var(--gt-ink-2)]",
+      "section_title": "text-lg font-semibold",
+      "card_title": "text-base font-semibold",
+      "body": "text-sm md:text-base",
+      "small": "text-xs text-[color:var(--gt-ink-3)]"
+    },
+    "line_height": { "headings": "leading-[1.05]", "body": "leading-6" }
+  },
+  "color_system": {
+    "notes": [
+      "Follow spec exactly: background #f3f1ea; surface #fff; forest/teal/champagne/ink tokens.",
+      "No purple. Gradients only as mild decorative overlays and never >20% viewport.",
+      "Prefer solid surfaces for reading areas; use champagne for active states and premium accents."
+    ],
+    "raw_palette": {
+      "background": "#f3f1ea",
+      "surface": "#ffffff",
+      "forest": { "900": "#061e1c", "800": "#0a2724", "700": "#0e342f" },
+      "teal": { "700": "#237a6e", "600": "#3d9c8d", "500": "#16b8a8" },
+      "champagne": { "600": "#8a6826", "500": "#c9a460", "300": "#dcc086" },
+      "ink": { "900": "#0d201d", "600": "#5a6e6a" }
+    },
+    "semantic_tokens": {
+      "--gt-bg": "#f3f1ea", "--gt-surface": "#ffffff",
+      "--gt-forest-1": "#061e1c", "--gt-forest-2": "#0a2724", "--gt-forest-3": "#0e342f",
+      "--gt-teal-1": "#237a6e", "--gt-teal-2": "#3d9c8d", "--gt-teal-3": "#16b8a8",
+      "--gt-champagne-1": "#8a6826", "--gt-champagne-2": "#c9a460", "--gt-champagne-3": "#dcc086",
+      "--gt-ink-1": "#0d201d", "--gt-ink-2": "#5a6e6a",
+      "--gt-border": "rgba(13,32,29,0.10)", "--gt-border-strong": "rgba(13,32,29,0.16)",
+      "--gt-ring": "rgba(22,184,168,0.35)",
+      "--gt-success": "#16b8a8", "--gt-warning": "#c9a460", "--gt-danger": "#b42318", "--gt-info": "#237a6e"
+    }
+  },
+  "radii_shadows_glass": {
+    "radius": { "global": "18px", "tailwind": "rounded-[18px]", "small": "rounded-xl", "pill": "rounded-full" },
+    "shadow_system": {
+      "--gt-shadow-1": "0 1px 0 rgba(13,32,29,0.06), 0 8px 24px rgba(13,32,29,0.08)",
+      "--gt-shadow-2": "0 1px 0 rgba(13,32,29,0.08), 0 16px 40px rgba(13,32,29,0.10)",
+      "--gt-shadow-inset": "inset 0 1px 0 rgba(255,255,255,0.65)"
+    },
+    "glass_topbar": "backdrop-blur-xl bg-white/55 border border-[color:var(--gt-border)] shadow-[var(--gt-shadow-1)]",
+    "metallic_tier_cards": {
+      "rule": "Metallic effect only on tier header strip or small accent band (<20% viewport).",
+      "allowed_gradients": [
+        "linear-gradient(135deg, rgba(220,192,134,0.85), rgba(201,164,96,0.55), rgba(138,104,38,0.35))",
+        "linear-gradient(135deg, rgba(255,255,255,0.75), rgba(220,192,134,0.35), rgba(13,32,29,0.06))"
+      ]
+    }
+  },
+  "buttons": {
+    "tokens": { "--btn-radius": "12px", "--btn-shadow": "0 1px 0 rgba(13,32,29,0.08), 0 10px 24px rgba(13,32,29,0.10)", "--btn-press": "scale(0.98)", "--btn-focus": "0 0 0 4px rgba(22,184,168,0.25)" },
+    "variants": {
+      "primary": "rounded-[12px] bg-forest(#0a2724) text-white hover forest-3, teal focus ring",
+      "secondary": "rounded-[12px] bg-[rgba(201,164,96,0.16)] text ink border [rgba(138,104,38,0.25)]",
+      "ghost": "rounded-[12px] hover bg-[rgba(13,32,29,0.06)]"
+    }
+  },
+  "motion": {
+    "durations": { "fast": "150ms", "base": "220ms", "slow": "320ms" },
+    "easings": { "standard": "cubic-bezier(0.2,0.8,0.2,1)", "emphasized": "cubic-bezier(0.2,1,0.2,1)" },
+    "principles": ["Entrance fade+slide 8px; hover lift 2px; press scale 0.98", "Never transition: all", "Respect prefers-reduced-motion"]
+  },
+  "data_viz": {
+    "grid": "rgba(13,32,29,0.10)", "axis": "rgba(13,32,29,0.35)",
+    "series_primary": "#16b8a8", "series_secondary": "#c9a460", "series_neutral": "#5a6e6a"
+  },
+  "accessibility": ["WCAG AA on parchment", "Teal focus rings", "Keyboard navigable (Radix/shadcn)", "Reduced motion support"],
+  "key_rules": [
+    "No center-aligned app container; no universal transitions",
+    "No emoji icons — use lucide-react",
+    "All interactive elements get data-testid (kebab-case)",
+    "Tables become stacked cards below 768px",
+    "Tabular numerals for ₹ and counts",
+    "Use sonner for toasts",
+    "Drawer on mobile / Sheet on desktop for bottom-sheet flows",
+    "Components: named exports; pages: default exports"
+  ]
+}

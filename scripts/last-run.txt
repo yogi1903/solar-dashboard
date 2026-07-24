@@ -1,0 +1,260 @@
+Authenticating as "GREEN TEK" against http://api.shinemonitor.com/public/ (company-key=bnrl_frRFjEz8Mkn) …
+✓ Auth OK — token acquired (expires in 432000s)
+
+── Plants on this account ──
+{
+ "err": 0,
+ "desc": "ERR_NONE",
+ "dat": {
+  "total": 65,
+  "page": 0,
+  "pagesize": 100,
+  "plant": [
+   {
+    "pid": 1143161,
+    "uid": 4347792,
+    "name": "Rain Tree Park",
+    "status": 0,
+    "energyOffset": 0,
+    "address": {
+     "address": "KPHB COLONY  MALAYSIAN TOWN SHIP",
+     "lon": "78.514500",
+     "lat": "17.445800",
+     "timezone": 19800
+    },
+    "profit": {
+     "unitProfit": "10.0000",
+     "currency": "₹",
+     "coal": "0.400",
+     "co2": "0.997",
+     "so2": "0.030",
+     "soldProfit": 0,
+     "selfProfit": 0,
+     "purchProfit": 0,
+     "consProfit": 0,
+     "feedP …(truncated)
+
+Using plantid=1207966
+
+── Plant info ──
+{
+ "err": 0,
+ "desc": "ERR_NONE",
+ "dat": {
+  "pid": 1207966,
+  "uid": 4517220,
+  "name": "Greentek India Ltd",
+  "status": 0,
+  "energyOffset": 0,
+  "address": {
+   "country": "India",
+   "province": "Secunderabad",
+   "city": "Secunderabad",
+   "county": "india",
+   "address": "401 near police station Aswini Colony West Marredpally Secunderabad Telangana 500026 India",
+   "lon": "78.506435",
+   "lat": "17.451407",
+   "timezone": 19800
+  },
+  "profit": {
+   "unitProfit": "11.0000",
+   "currency": "₹",
+   "coal": "0.400",
+   "co2": "0.997",
+   "so2": "0.030",
+   "soldProfit": 0,
+   "selfProfit": 0,
+   "purchProfit": 0,
+   "consProfit": 0,
+   "feedProfit": 0
+  },
+  "nominalPower": "4.8000",
+  "energyYearEstimate": "0.0000",
+  "designCompany": "Greentek India Ltd",
+  "install": "2024-05-06 0 …(truncated)
+
+── Summary (today/month/year/total) ──
+{
+ "err": 0,
+ "desc": "ERR_NONE",
+ "dat": [
+  {
+   "key": "ENERGY_TODAY",
+   "val": "13.0000"
+  },
+  {
+   "key": "ENERGY_MONTH",
+   "val": "303.0000"
+  },
+  {
+   "key": "ENERGY_YEAR",
+   "val": "2852.0000"
+  },
+  {
+   "key": "ENERGY_TOTAL",
+   "val": "10746.0000"
+  }
+ ]
+}
+
+── Day power curve ──
+{
+ "err": 0,
+ "desc": "ERR_NONE",
+ "dat": {
+  "outputPower": [
+   {
+    "val": "0.0000",
+    "ts": "2026-07-23 00:00:00"
+   },
+   {
+    "val": "0.0000",
+    "ts": "2026-07-23 00:05:00"
+   },
+   {
+    "val": "0.0000",
+    "ts": "2026-07-23 00:10:00"
+   },
+   {
+    "val": "0.0000",
+    "ts": "2026-07-23 00:15:00"
+   },
+   {
+    "val": "0.0000",
+    "ts": "2026-07-23 00:20:00"
+   },
+   {
+    "val": "0.0000",
+    "ts": "2026-07-23 00:25:00"
+   },
+   {
+    "val": "0.0000",
+    "ts": "2026-07-23 00:30:00"
+   },
+   {
+    "val": "0.0000",
+    "ts": "2026-07-23 00:35:00"
+   },
+   {
+    "val": "0.0000",
+    "ts": "2026-07-23 00:40:00"
+   },
+   {
+    "val": "0.0000",
+    "ts": "2026-07-23 00:45:00"
+   },
+   {
+    "val": "0.0000",
+    "ts": "2026-07-23 00:50:00"
+   },
+   {
+    "val": "0.0000",
+    "ts": "2026-07-23 00:55:00"
+   },
+   {
+    "val": "0.0000",
+    "ts": "2026-07-23 01:00:00"
+   },
+   {
+ …(truncated)
+
+── Daily energy this month ──
+{
+ "err": 0,
+ "desc": "ERR_NONE",
+ "dat": {
+  "perday": [
+   {
+    "val": "13.0000",
+    "ts": "2026-07-01 00:00:00"
+   },
+   {
+    "val": "11.0000",
+    "ts": "2026-07-02 00:00:00"
+   },
+   {
+    "val": "7.0000",
+    "ts": "2026-07-03 00:00:00"
+   },
+   {
+    "val": "7.0000",
+    "ts": "2026-07-04 00:00:00"
+   },
+   {
+    "val": "10.0000",
+    "ts": "2026-07-05 00:00:00"
+   },
+   {
+    "val": "12.0000",
+    "ts": "2026-07-06 00:00:00"
+   },
+   {
+    "val": "11.0000",
+    "ts": "2026-07-07 00:00:00"
+   },
+   {
+    "val": "14.0000",
+    "ts": "2026-07-08 00:00:00"
+   },
+   {
+    "val": "16.0000",
+    "ts": "2026-07-09 00:00:00"
+   },
+   {
+    "val": "17.0000",
+    "ts": "2026-07-10 00:00:00"
+   },
+   {
+    "val": "16.0000",
+    "ts": "2026-07-11 00:00:00"
+   },
+   {
+    "val": "19.0000",
+   …(truncated)
+
+── Alarms (outage source) ──
+{
+ "err": 0,
+ "desc": "ERR_NONE",
+ "dat": {
+  "total": 382,
+  "page": 0,
+  "pagesize": 5,
+  "warning": [
+   {
+    "id": "6a60a1a9c60c522dedcb0f27",
+    "uid": 4517220,
+    "did": 5015276,
+    "pid": 1207966,
+    "pn": "Q0030398977037",
+    "devcode": 632,
+    "devaddr": 1,
+    "alias": "KSY0B23HS0910",
+    "sn": "KSY0B23HS0910",
+    "status": false,
+    "level": 2,
+    "code": "0x00000009",
+    "desc": "No utility fault",
+    "title": "Fault code",
+    "handle": true,
+    "remind": false,
+    "gts": "2026-07-22 16:25:34",
+    "cts": "2026-07-22 16:25:58"
+   },
+   {
+    "id": "6a603b65c60c522ded3e65f0",
+    "uid": 4517220,
+    "did": 5015276,
+    "pid": 1207966,
+    "pn": "Q0030398977037",
+    "devcode": 632,
+    "devaddr": 1,
+    "alias": "KSY0B23HS0910",
+    "sn": "KSY0B23HS0910",
+    "status": false,
+    "level": 2,
+    "code": "0x00000009",
+    "desc": "No utility fault",
+    "title": …(truncated)
+
+✓ Connectivity test complete.
