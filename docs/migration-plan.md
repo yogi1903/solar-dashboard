@@ -2,6 +2,16 @@
 
 **Date:** 2026-07-24 · **Status:** revised after review against the live Alliance stack (CLAUDE.md) — supersedes v1 (2026-07-23)
 
+## Scope guard
+
+`Monitoring-Integration-Design-Brief.docx` in the Alliance repo describes the **separate
+ERP integration** (per-plant REST, OAuth client-credentials, `plant_links`) — it is **not**
+the spec for this migration and nothing in this plan implements it. Conversely, the
+monitoring module must be **purely additive**: no changes to the ERP/Frappe paths
+(`frappe_client.py`, `lead_sync.py`, `frappe_requirement_sync.py`, `reconciliation.py`,
+webhook routes/handlers). The `plants` table here is new and independent of any ERP
+mapping. Verify at review time that the monitoring diff touches none of those files.
+
 ## What changed from v1, and why
 
 | v1 assumption                                         | v2 correction                                                                                                                                                                                                   |
