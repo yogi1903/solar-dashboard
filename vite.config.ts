@@ -11,7 +11,7 @@ export default defineConfig({
     port: 3000,
     proxy: {
       "/shinemonitor": {
-        target: "http://api.shinemonitor.com",
+        target: "https://api.shinemonitor.com",
         changeOrigin: true,
         rewrite: (p) => p.replace(/^\/shinemonitor/, "/public/"),
       },
