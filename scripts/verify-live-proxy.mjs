@@ -17,7 +17,7 @@ const USR = env.SHINEMONITOR_USR,
   PWD = env.SHINEMONITOR_PWD;
 const KEY = "bnrl_frRFjEz8Mkn";
 const PID = "1207966";
-const BASE = "http://127.0.0.1:3000/shinemonitor"; // through the Vite proxy
+const BASE = "http://localhost:3000/shinemonitor"; // through the Vite proxy
 
 const sha1 = (s) => createHash("sha1").update(s, "utf8").digest("hex");
 async function call(ap, secret, token) {
