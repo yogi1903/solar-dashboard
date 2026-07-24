@@ -18,7 +18,11 @@ async function sha1Hex(s: string): Promise<string> {
 }
 
 /* ── token cache (localStorage, token lives ~5 days) ─────────── */
-interface AuthState { token: string; secret: string; expiresAt: number }
+interface AuthState {
+  token: string;
+  secret: string;
+  expiresAt: number;
+}
 const AUTH_KEY = "greentek-shine-auth";
 
 function loadAuth(): AuthState | null {
@@ -27,12 +31,18 @@ function loadAuth(): AuthState | null {
     if (!raw) return null;
     const a = JSON.parse(raw) as AuthState;
     return a.expiresAt > Date.now() + 60_000 ? a : null; // 1 min safety margin
-  } catch { return null; }
+  } catch {
+    return null;
+  }
 }
-function saveAuth(a: AuthState) { localStorage.setItem(AUTH_KEY, JSON.stringify(a)); }
-export function clearAuth() { localStorage.removeItem(AUTH_KEY); }
+function saveAuth(a: AuthState) {
+  localStorage.setItem(AUTH_KEY, JSON.stringify(a));
+}
+export function clearAuth() {
+  localStorage.removeItem(AUTH_KEY);
+}
 
-async function rawCall(actionParams: string, attempt = 0): Promise<any> {
+async function rawCall<T>(actionParams: string, attempt = 0): Promise<ShineResponse<T>> {
   const salt = Date.now().toString();
   const auth = loadAuth();
   const sign = auth
@@ -41,7 +51,7 @@ async function rawCall(actionParams: string, attempt = 0): Promise<any> {
   const url = `${BASE}?sign=${sign}&salt=${salt}${auth ? `&token=${auth.token}` : ""}${actionParams}`;
   try {
     const res = await fetch(url);
-    return await res.json();
+    return (await res.json()) as ShineResponse<T>;
   } catch (e) {
     if (attempt < 3) {
       await new Promise((r) => setTimeout(r, 1200 * (attempt + 1)));
@@ -51,22 +61,39 @@ async function rawCall(actionParams: string, attempt = 0): Promise<any> {
   }
 }
 
+interface ShineResponse<T> {
+  err: number;
+  desc?: string;
+  dat: T;
+}
+
+interface AuthDat {
+  token: string;
+  secret: string;
+  expire?: number;
+}
+
 async function ensureAuth(): Promise<void> {
   if (loadAuth()) return;
-  const r = await rawCall(`&action=auth&usr=${encodeURIComponent(USR)}&company-key=${KEY}`);
+  const r = await rawCall<AuthDat>(
+    `&action=auth&usr=${encodeURIComponent(USR)}&company-key=${KEY}`
+  );
   if (r.err !== 0) throw new Error(`ShineMonitor auth failed: ${r.desc ?? JSON.stringify(r)}`);
   const { token, secret, expire } = r.dat;
   saveAuth({ token, secret, expiresAt: Date.now() + Math.min(expire ?? 432000, 432000) * 1000 });
 }
 
 // Signed business call; on auth-type errors, re-authenticates once.
-export async function shineCall(actionParams: string, retried = false): Promise<any> {
+export async function shineCall<T>(actionParams: string, retried = false): Promise<T> {
   await ensureAuth();
-  const r = await rawCall(actionParams);
+  const r = await rawCall<T>(actionParams);
   if (r.err !== 0 && !retried) {
     clearAuth(); // token may have been revoked server-side
     await ensureAuth();
-    return rawCall(actionParams);
+    const retry = await rawCall<T>(actionParams);
+    if (retry.err !== 0)
+      throw new Error(`ShineMonitor ${actionParams}: ${retry.desc ?? retry.err}`);
+    return retry.dat;
   }
   if (r.err !== 0) throw new Error(`ShineMonitor ${actionParams}: ${r.desc ?? r.err}`);
   return r.dat;
@@ -84,12 +111,44 @@ export function parseTs(ts: string): Date {
   return new Date(y, m - 1, dd, H, M, S);
 }
 
+// Raw `dat` shapes returned by the ShineMonitor endpoints (numeric values
+// arrive as strings; see docs/live-mode.md).
+interface PlantInfoDat {
+  pid: number;
+  name: string;
+  status: number;
+  nominalPower: string;
+  install: string;
+  address?: { city?: string; province?: string };
+  profit?: { unitProfit?: string; co2?: string };
+}
+interface CurrentDataRow {
+  key: string;
+  val: string;
+}
+interface TsVal {
+  ts: string;
+  val: string;
+}
+interface WarningRow {
+  gts: string;
+  cts?: string;
+  code: string;
+  desc: string;
+}
+
 export interface PlantInfo {
-  pid: number; name: string; status: number; nominalPowerKw: number;
-  installDate: Date; city: string; tariffRsPerKwh: number; co2KgPerKwh: number;
+  pid: number;
+  name: string;
+  status: number;
+  nominalPowerKw: number;
+  installDate: Date;
+  city: string;
+  tariffRsPerKwh: number;
+  co2KgPerKwh: number;
 }
 export async function getPlantInfo(): Promise<PlantInfo> {
-  const d = await shineCall(`&action=queryPlantInfo${P()}`);
+  const d = await shineCall<PlantInfoDat>(`&action=queryPlantInfo${P()}`);
   return {
     pid: d.pid,
     name: d.name,
@@ -97,49 +156,87 @@ export async function getPlantInfo(): Promise<PlantInfo> {
     nominalPowerKw: parseFloat(d.nominalPower) || 0,
     installDate: parseTs(d.install),
     city: d.address?.city || d.address?.province || "",
-    tariffRsPerKwh: parseFloat(d.profit?.unitProfit) || 0,
-    co2KgPerKwh: parseFloat(d.profit?.co2) || 0,
+    tariffRsPerKwh: parseFloat(d.profit?.unitProfit ?? "") || 0,
+    co2KgPerKwh: parseFloat(d.profit?.co2 ?? "") || 0,
   };
 }
 
-export interface EnergySummary { today: number; month: number; year: number; total: number }
+export interface EnergySummary {
+  today: number;
+  month: number;
+  year: number;
+  total: number;
+}
 export async function getEnergySummary(): Promise<EnergySummary> {
-  const rows = await shineCall(
-    `&action=queryPlantCurrentData${P()}&par=ENERGY_TODAY,ENERGY_MONTH,ENERGY_YEAR,ENERGY_TOTAL`,
+  const rows = await shineCall<CurrentDataRow[]>(
+    `&action=queryPlantCurrentData${P()}&par=ENERGY_TODAY,ENERGY_MONTH,ENERGY_YEAR,ENERGY_TOTAL`
   );
-  const get = (k: string) => parseFloat(rows.find((r: any) => r.key === k)?.val ?? "0") || 0;
-  return { today: get("ENERGY_TODAY"), month: get("ENERGY_MONTH"), year: get("ENERGY_YEAR"), total: get("ENERGY_TOTAL") };
+  const get = (k: string) => parseFloat(rows.find((r) => r.key === k)?.val ?? "0") || 0;
+  return {
+    today: get("ENERGY_TODAY"),
+    month: get("ENERGY_MONTH"),
+    year: get("ENERGY_YEAR"),
+    total: get("ENERGY_TOTAL"),
+  };
 }
 
 // 5-minute kW points for a day (288 entries, zeros at night)
-export interface CurvePoint { kw: number; date: Date }
+export interface CurvePoint {
+  kw: number;
+  date: Date;
+}
 export async function getDayCurve(date: Date): Promise<CurvePoint[]> {
   const ds = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
-  const d = await shineCall(`&action=queryPlantActiveOuputPowerOneDay${P()}&date=${ds}`);
-  return (d?.outputPower ?? []).map((p: any) => ({ kw: parseFloat(p.val) || 0, date: parseTs(p.ts) }));
+  const d = await shineCall<{ outputPower?: TsVal[] }>(
+    `&action=queryPlantActiveOuputPowerOneDay${P()}&date=${ds}`
+  );
+  return (d?.outputPower ?? []).map((p) => ({
+    kw: parseFloat(p.val) || 0,
+    date: parseTs(p.ts),
+  }));
 }
 
 // Daily kWh totals for a month
-export async function getMonthPerDay(year: number, month: number): Promise<{ day: number; kwh: number }[]> {
+export async function getMonthPerDay(
+  year: number,
+  month: number
+): Promise<{ day: number; kwh: number }[]> {
   const ds = `${year}-${String(month + 1).padStart(2, "0")}`;
-  const d = await shineCall(`&action=queryPlantEnergyMonthPerDay${P()}&date=${ds}`);
-  return (d?.perday ?? []).map((p: any) => ({ day: parseTs(p.ts).getDate(), kwh: parseFloat(p.val) || 0 }));
+  const d = await shineCall<{ perday?: TsVal[] }>(
+    `&action=queryPlantEnergyMonthPerDay${P()}&date=${ds}`
+  );
+  return (d?.perday ?? []).map((p) => ({
+    day: parseTs(p.ts).getDate(),
+    kwh: parseFloat(p.val) || 0,
+  }));
 }
 
 // Monthly kWh totals for a year
 export async function getYearPerMonth(year: number): Promise<{ month: number; kwh: number }[]> {
-  const d = await shineCall(`&action=queryPlantEnergyYearPerMonth${P()}&date=${year}`);
-  return (d?.permonth ?? []).map((p: any) => ({ month: parseTs(p.ts).getMonth(), kwh: parseFloat(p.val) || 0 }));
+  const d = await shineCall<{ permonth?: TsVal[] }>(
+    `&action=queryPlantEnergyYearPerMonth${P()}&date=${year}`
+  );
+  return (d?.permonth ?? []).map((p) => ({
+    month: parseTs(p.ts).getMonth(),
+    kwh: parseFloat(p.val) || 0,
+  }));
 }
 
 // All warnings for the plant (API caps pagesize at 100 → page through).
 // Only "No utility fault" (0x00000009) marks a grid outage.
-export interface WarningEvent { code: string; desc: string; start: Date; end: Date | null }
+export interface WarningEvent {
+  code: string;
+  desc: string;
+  start: Date;
+  end: Date | null;
+}
 export async function getAllWarnings(maxPages = 6): Promise<WarningEvent[]> {
   const out: WarningEvent[] = [];
   for (let page = 0; page < maxPages; page++) {
-    const d = await shineCall(`&action=queryPlantWarning${P()}&i18n=en_US&page=${page}&pagesize=100`);
-    const rows: any[] = d?.warning ?? [];
+    const d = await shineCall<{ warning?: WarningRow[] }>(
+      `&action=queryPlantWarning${P()}&i18n=en_US&page=${page}&pagesize=100`
+    );
+    const rows = d?.warning ?? [];
     for (const w of rows) {
       const start = parseTs(w.gts);
       const end = w.cts ? parseTs(w.cts) : null;
