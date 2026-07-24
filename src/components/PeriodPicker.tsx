@@ -53,13 +53,17 @@ export default function PeriodPicker({ mode, anchor, onSelect, onClose }: Props)
     const m = view.getMonth();
     const firstDow = (new Date(y, m, 1).getDay() + 6) % 7; // Monday = 0
     const daysInMonth = new Date(y, m + 1, 0).getDate();
-    const canPrev = new Date(y, m - 1, 1) >= installStart || (y === installStart.getFullYear() && m > installStart.getMonth());
+    const canPrev =
+      new Date(y, m - 1, 1) >= installStart ||
+      (y === installStart.getFullYear() && m > installStart.getMonth());
     const canNext = m < today.getMonth() || y < today.getFullYear();
 
     header = (
       <div className="flex items-center justify-between mb-4">
         {navBtn(-1, !canPrev, () => setView(new Date(y, m - 1, 1)))}
-        <p className="text-[16px] font-semibold" style={{ fontFamily: DISPLAY }}>{MONTH_LONG[m]} {y}</p>
+        <p className="text-[16px] font-semibold" style={{ fontFamily: DISPLAY }}>
+          {MONTH_LONG[m]} {y}
+        </p>
         {navBtn(1, !canNext, () => setView(new Date(y, m + 1, 1)))}
       </div>
     );
@@ -68,7 +72,10 @@ export default function PeriodPicker({ mode, anchor, onSelect, onClose }: Props)
     for (let i = 0; i < firstDow; i++) cells.push(<div key={`e${i}`} />);
     for (let d = 1; d <= daysInMonth; d++) {
       const date = new Date(y, m, d);
-      const disabled = date > todayStart || date < new Date(INSTALL_DATE.getFullYear(), INSTALL_DATE.getMonth(), INSTALL_DATE.getDate());
+      const disabled =
+        date > todayStart ||
+        date <
+          new Date(INSTALL_DATE.getFullYear(), INSTALL_DATE.getMonth(), INSTALL_DATE.getDate());
       const selected = date.toDateString() === anchor.toDateString();
       const isToday = date.toDateString() === today.toDateString();
       cells.push(
@@ -91,7 +98,9 @@ export default function PeriodPicker({ mode, anchor, onSelect, onClose }: Props)
       <>
         <div className="grid grid-cols-7 mb-1">
           {["M", "T", "W", "T", "F", "S", "S"].map((d, i) => (
-            <p key={i} className="text-center text-[11px] font-medium" style={{ color: FAINT }}>{d}</p>
+            <p key={i} className="text-center text-[11px] font-medium" style={{ color: FAINT }}>
+              {d}
+            </p>
           ))}
         </div>
         <div className="grid grid-cols-7 gap-y-1">{cells}</div>
@@ -104,7 +113,9 @@ export default function PeriodPicker({ mode, anchor, onSelect, onClose }: Props)
     header = (
       <div className="flex items-center justify-between mb-4">
         {navBtn(-1, !canPrev, () => setView(new Date(y - 1, 0, 1)))}
-        <p className="text-[16px] font-semibold" style={{ fontFamily: DISPLAY }}>{y}</p>
+        <p className="text-[16px] font-semibold" style={{ fontFamily: DISPLAY }}>
+          {y}
+        </p>
         {navBtn(1, !canNext, () => setView(new Date(y + 1, 0, 1)))}
       </div>
     );
@@ -136,7 +147,11 @@ export default function PeriodPicker({ mode, anchor, onSelect, onClose }: Props)
   } else {
     const years: number[] = [];
     for (let y = today.getFullYear(); y >= installStart.getFullYear(); y--) years.push(y);
-    header = <p className="text-[16px] font-semibold mb-4 text-center" style={{ fontFamily: DISPLAY }}>Select year</p>;
+    header = (
+      <p className="text-[16px] font-semibold mb-4 text-center" style={{ fontFamily: DISPLAY }}>
+        Select year
+      </p>
+    );
     body = (
       <div className="space-y-2">
         {years.map((y) => {
@@ -161,8 +176,7 @@ export default function PeriodPicker({ mode, anchor, onSelect, onClose }: Props)
     );
   }
 
-  const currentLabel =
-    mode === "day" ? "Today" : mode === "month" ? "This month" : "This year";
+  const currentLabel = mode === "day" ? "Today" : mode === "month" ? "This month" : "This year";
   const jumpToCurrent = () => {
     if (mode === "day") pick(new Date(todayStart));
     else if (mode === "month") pick(new Date(today.getFullYear(), today.getMonth(), 1));

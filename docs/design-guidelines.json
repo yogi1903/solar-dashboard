@@ -15,12 +15,30 @@
       "tap_targets": "min-h-11 (44px), ideally h-12 (48px)"
     }
   },
-  "brand_attributes": ["premium", "trustworthy", "operationally efficient", "quietly luxurious (metallic tiers, glass topbar)", "data-forward but warm (champagne accents on parchment background)"],
+  "brand_attributes": [
+    "premium",
+    "trustworthy",
+    "operationally efficient",
+    "quietly luxurious (metallic tiers, glass topbar)",
+    "data-forward but warm (champagne accents on parchment background)"
+  ],
   "typography": {
     "fonts": {
-      "heading": { "family": "Bricolage Grotesque", "source": "Google Fonts", "usage": "All headings, KPI numerals in hero tiles, tier names" },
-      "body": { "family": "Inter", "source": "Google Fonts", "usage": "Body, labels, tables, helper text" },
-      "numbers": { "feature": "tabular-nums", "usage": "₹ amounts, points, counts, KPIs", "tailwind": "[font-variant-numeric:tabular-nums]" }
+      "heading": {
+        "family": "Bricolage Grotesque",
+        "source": "Google Fonts",
+        "usage": "All headings, KPI numerals in hero tiles, tier names"
+      },
+      "body": {
+        "family": "Inter",
+        "source": "Google Fonts",
+        "usage": "Body, labels, tables, helper text"
+      },
+      "numbers": {
+        "feature": "tabular-nums",
+        "usage": "₹ amounts, points, counts, KPIs",
+        "tailwind": "[font-variant-numeric:tabular-nums]"
+      }
     },
     "scale_tailwind": {
       "h1": "text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight",
@@ -47,18 +65,35 @@
       "ink": { "900": "#0d201d", "600": "#5a6e6a" }
     },
     "semantic_tokens": {
-      "--gt-bg": "#f3f1ea", "--gt-surface": "#ffffff",
-      "--gt-forest-1": "#061e1c", "--gt-forest-2": "#0a2724", "--gt-forest-3": "#0e342f",
-      "--gt-teal-1": "#237a6e", "--gt-teal-2": "#3d9c8d", "--gt-teal-3": "#16b8a8",
-      "--gt-champagne-1": "#8a6826", "--gt-champagne-2": "#c9a460", "--gt-champagne-3": "#dcc086",
-      "--gt-ink-1": "#0d201d", "--gt-ink-2": "#5a6e6a",
-      "--gt-border": "rgba(13,32,29,0.10)", "--gt-border-strong": "rgba(13,32,29,0.16)",
+      "--gt-bg": "#f3f1ea",
+      "--gt-surface": "#ffffff",
+      "--gt-forest-1": "#061e1c",
+      "--gt-forest-2": "#0a2724",
+      "--gt-forest-3": "#0e342f",
+      "--gt-teal-1": "#237a6e",
+      "--gt-teal-2": "#3d9c8d",
+      "--gt-teal-3": "#16b8a8",
+      "--gt-champagne-1": "#8a6826",
+      "--gt-champagne-2": "#c9a460",
+      "--gt-champagne-3": "#dcc086",
+      "--gt-ink-1": "#0d201d",
+      "--gt-ink-2": "#5a6e6a",
+      "--gt-border": "rgba(13,32,29,0.10)",
+      "--gt-border-strong": "rgba(13,32,29,0.16)",
       "--gt-ring": "rgba(22,184,168,0.35)",
-      "--gt-success": "#16b8a8", "--gt-warning": "#c9a460", "--gt-danger": "#b42318", "--gt-info": "#237a6e"
+      "--gt-success": "#16b8a8",
+      "--gt-warning": "#c9a460",
+      "--gt-danger": "#b42318",
+      "--gt-info": "#237a6e"
     }
   },
   "radii_shadows_glass": {
-    "radius": { "global": "18px", "tailwind": "rounded-[18px]", "small": "rounded-xl", "pill": "rounded-full" },
+    "radius": {
+      "global": "18px",
+      "tailwind": "rounded-[18px]",
+      "small": "rounded-xl",
+      "pill": "rounded-full"
+    },
     "shadow_system": {
       "--gt-shadow-1": "0 1px 0 rgba(13,32,29,0.06), 0 8px 24px rgba(13,32,29,0.08)",
       "--gt-shadow-2": "0 1px 0 rgba(13,32,29,0.08), 0 16px 40px rgba(13,32,29,0.10)",
@@ -74,7 +109,12 @@
     }
   },
   "buttons": {
-    "tokens": { "--btn-radius": "12px", "--btn-shadow": "0 1px 0 rgba(13,32,29,0.08), 0 10px 24px rgba(13,32,29,0.10)", "--btn-press": "scale(0.98)", "--btn-focus": "0 0 0 4px rgba(22,184,168,0.25)" },
+    "tokens": {
+      "--btn-radius": "12px",
+      "--btn-shadow": "0 1px 0 rgba(13,32,29,0.08), 0 10px 24px rgba(13,32,29,0.10)",
+      "--btn-press": "scale(0.98)",
+      "--btn-focus": "0 0 0 4px rgba(22,184,168,0.25)"
+    },
     "variants": {
       "primary": "rounded-[12px] bg-forest(#0a2724) text-white hover forest-3, teal focus ring",
       "secondary": "rounded-[12px] bg-[rgba(201,164,96,0.16)] text ink border [rgba(138,104,38,0.25)]",
@@ -83,14 +123,29 @@
   },
   "motion": {
     "durations": { "fast": "150ms", "base": "220ms", "slow": "320ms" },
-    "easings": { "standard": "cubic-bezier(0.2,0.8,0.2,1)", "emphasized": "cubic-bezier(0.2,1,0.2,1)" },
-    "principles": ["Entrance fade+slide 8px; hover lift 2px; press scale 0.98", "Never transition: all", "Respect prefers-reduced-motion"]
+    "easings": {
+      "standard": "cubic-bezier(0.2,0.8,0.2,1)",
+      "emphasized": "cubic-bezier(0.2,1,0.2,1)"
+    },
+    "principles": [
+      "Entrance fade+slide 8px; hover lift 2px; press scale 0.98",
+      "Never transition: all",
+      "Respect prefers-reduced-motion"
+    ]
   },
   "data_viz": {
-    "grid": "rgba(13,32,29,0.10)", "axis": "rgba(13,32,29,0.35)",
-    "series_primary": "#16b8a8", "series_secondary": "#c9a460", "series_neutral": "#5a6e6a"
+    "grid": "rgba(13,32,29,0.10)",
+    "axis": "rgba(13,32,29,0.35)",
+    "series_primary": "#16b8a8",
+    "series_secondary": "#c9a460",
+    "series_neutral": "#5a6e6a"
   },
-  "accessibility": ["WCAG AA on parchment", "Teal focus rings", "Keyboard navigable (Radix/shadcn)", "Reduced motion support"],
+  "accessibility": [
+    "WCAG AA on parchment",
+    "Teal focus rings",
+    "Keyboard navigable (Radix/shadcn)",
+    "Reduced motion support"
+  ],
   "key_rules": [
     "No center-aligned app container; no universal transitions",
     "No emoji icons — use lucide-react",

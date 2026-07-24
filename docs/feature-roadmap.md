@@ -1,7 +1,7 @@
 # Greentek Alliance · Solar Monitor — Feature Roadmap
 
 **Product:** Customer-facing solar monitoring app for residential & small-business owners
-**Audience:** Non-technical. They care about two things: *"is it working?"* and *"how much am I saving?"*
+**Audience:** Non-technical. They care about two things: _"is it working?"_ and _"how much am I saving?"_
 **Design language:** Apple philosophy — one hero number per card, plain language, technical data tucked away
 **Theme:** Greentek Alliance (cream `#f3f1ea`, deep teal `#0d201d`, gold `#c9a460`, Inter + Bricolage Grotesque)
 
@@ -36,6 +36,7 @@ Source: ShineMonitor alarms — "No utility fault" (code `0x00000009`), `happen 
 - Night outage → "No production impact"
 
 Display:
+
 - **Day:** header pill → 🟠 "Grid outage"; hero → "Not producing — grid outage since 10:18 AM"; shaded amber band on the power curve; outage card "1 h 24 m · ≈4.9 kWh lost (≈₹43)"; multiple outages listed with total
 - **Month:** summary line "3 outages · 4.2 h · ≈18 kWh lost (≈₹158)"; amber dot under affected day bars; expandable outage list
 - **Year:** yearly summary line; affected months dotted; **"Grid uptime 99.2%"** trust metric (strong for small businesses — reframes solar as reliability)
@@ -44,12 +45,12 @@ Strategic value: makes "you lost ₹X to grid outages" visible → future batter
 
 ## Phase 2 — Engagement & retention (recommended next)
 
-| Feature | Why it matters | Data needed |
-|---|---|---|
-| **Investment payback tracker** | "₹1,09,120 recovered · 39% · break-even ≈ June 2029" progress bar. Justifies the purchase to family/CA/neighbours | System cost (one-time input at onboarding) |
-| **Shareable monthly summary card** | One tap → branded image for WhatsApp status with the customer's real numbers. Every share is a referral touchpoint | Existing monthly data |
-| **Tomorrow's generation forecast** | "Tomorrow: sunny — expect ≈24 kWh." Habit-forming morning check | Free weather API + plant's historical curve |
-| **Cleaning / maintenance nudges** | Dust costs 15–25% generation in India. "Generation 12% below normal — a panel cleaning may help." Service revenue hook for Greentek | Expected-vs-actual comparison (already computed for percentile) |
+| Feature                            | Why it matters                                                                                                                      | Data needed                                                     |
+| ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| **Investment payback tracker**     | "₹1,09,120 recovered · 39% · break-even ≈ June 2029" progress bar. Justifies the purchase to family/CA/neighbours                   | System cost (one-time input at onboarding)                      |
+| **Shareable monthly summary card** | One tap → branded image for WhatsApp status with the customer's real numbers. Every share is a referral touchpoint                  | Existing monthly data                                           |
+| **Tomorrow's generation forecast** | "Tomorrow: sunny — expect ≈24 kWh." Habit-forming morning check                                                                     | Free weather API + plant's historical curve                     |
+| **Cleaning / maintenance nudges**  | Dust costs 15–25% generation in India. "Generation 12% below normal — a panel cleaning may help." Service revenue hook for Greentek | Expected-vs-actual comparison (already computed for percentile) |
 
 ## Phase 2.5 — Live data integration ✅ BUILT & verified in dev (build passes; proxy returns real ShineMonitor JSON)
 
@@ -65,15 +66,15 @@ Source: ShineMonitor Open API (KSolare inverter line) — full reference in [liv
 
 ## Phase 3 — Deferred (revisit after Phase 2)
 
-| Feature | Status / blocker |
-|---|---|
-| **Bill reconciliation** | Deferred per owner decision — manual entry kills it; automatic requires **BBPS integration** (see below). Revisit with an aggregator partner |
-| **Net-metering / export view** | Hardware-dependent: only plants with an export meter / CT clamp on the inverter expose "energy to grid" via ShineMonitor. Ship as a *conditional* view that appears only for metered plants |
-| **Multi-site switcher** | For small-business owners with 2–3 plants; header switcher. Cheap to build, schedule with small-business push |
-| **Quarterly performance certificate PDF** | Formal generation/savings document for loans, insurance, property resale |
-| **Warranty & documents vault** | Inverter warranty countdown, installation certificate, net-meter agreement storage |
-| **Live-mode production hardening** | Required before any real deploy of Phase 2.5: move `shineClient` logic server-side into the FastAPI `monitoring` module (see migration-plan.md) — credentials leave the frontend bundle, the ~5-day token is cached server-side, and per-customer plant mapping replaces the single shared `VITE_SHINEMONITOR_PLANT_ID` |
-| **WhatsApp / push alerts** | Moved from Phase 2 per owner decision. Real-time notifications: "Grid outage started 10:18 AM" / "Grid back — you lost ≈2.1 kWh (₹18)" / "No generation today — check the MCB". Needs a messaging backend (WhatsApp Business API / push service) — build once outage events (Phase 1.5) and offline detection exist |
+| Feature                                   | Status / blocker                                                                                                                                                                                                                                                                                                        |
+| ----------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Bill reconciliation**                   | Deferred per owner decision — manual entry kills it; automatic requires **BBPS integration** (see below). Revisit with an aggregator partner                                                                                                                                                                            |
+| **Net-metering / export view**            | Hardware-dependent: only plants with an export meter / CT clamp on the inverter expose "energy to grid" via ShineMonitor. Ship as a _conditional_ view that appears only for metered plants                                                                                                                             |
+| **Multi-site switcher**                   | For small-business owners with 2–3 plants; header switcher. Cheap to build, schedule with small-business push                                                                                                                                                                                                           |
+| **Quarterly performance certificate PDF** | Formal generation/savings document for loans, insurance, property resale                                                                                                                                                                                                                                                |
+| **Warranty & documents vault**            | Inverter warranty countdown, installation certificate, net-meter agreement storage                                                                                                                                                                                                                                      |
+| **Live-mode production hardening**        | Required before any real deploy of Phase 2.5: move `shineClient` logic server-side into the FastAPI `monitoring` module (see migration-plan.md) — credentials leave the frontend bundle, the ~5-day token is cached server-side, and per-customer plant mapping replaces the single shared `VITE_SHINEMONITOR_PLANT_ID` |
+| **WhatsApp / push alerts**                | Moved from Phase 2 per owner decision. Real-time notifications: "Grid outage started 10:18 AM" / "Grid back — you lost ≈2.1 kWh (₹18)" / "No generation today — check the MCB". Needs a messaging backend (WhatsApp Business API / push service) — build once outage events (Phase 1.5) and offline detection exist     |
 
 ---
 
@@ -97,14 +98,14 @@ BHIM / Amazon Pay fetch bills through **BBPS (Bharat Bill Payment System)**, NPC
 
 One table (PostgreSQL + TimescaleDB recommended): **one row per plant per day** — daily total + 24-element hourly array.
 
-| Per plant | Size |
-|---|---|
-| Hourly values (24 × uint16 Wh) | 48 B/day |
-| Daily total + row overhead | ~100 B/day |
-| **Per plant-day** | **~150 B** |
-| **Per plant-year** | **~55 KB** |
-| 1,000 plants / year | ~55 MB |
-| 10,000 plants / year | ~0.55 GB |
+| Per plant                      | Size       |
+| ------------------------------ | ---------- |
+| Hourly values (24 × uint16 Wh) | 48 B/day   |
+| Daily total + row overhead     | ~100 B/day |
+| **Per plant-day**              | **~150 B** |
+| **Per plant-year**             | **~55 KB** |
+| 1,000 plants / year            | ~55 MB     |
+| 10,000 plants / year           | ~0.55 GB   |
 
 Not a big-data problem — a basic managed Postgres holds a decade for tens of thousands of plants.
 

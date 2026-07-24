@@ -29,7 +29,8 @@ export async function prefetchFor(mode: "day" | "month" | "year", anchor: Date):
   if (!isLive()) return;
   if (mode === "day") return live.prefetchLiveDay(anchor);
   if (mode === "month") {
-    const y = anchor.getFullYear(), m = anchor.getMonth();
+    const y = anchor.getFullYear(),
+      m = anchor.getMonth();
     await Promise.all([live.prefetchLiveMonth(y, m), live.prefetchLiveOutageDays(y, m)]);
     return;
   }
@@ -79,11 +80,26 @@ export function getCurrentKw(): number | null {
 /* ── pass-throughs (constants, types, formatters) ────────────── */
 
 export {
-  SYSTEM_KWP, TARIFF_RS_PER_KWH, CO2_KG_PER_KWH, INSTALL_DATE, LIFETIME,
-  SYSTEM_COST_RS, MONTH_SHORT, MONTH_LONG, fmtRs, fmtDate, fmtHour, typicalDayKwh,
+  SYSTEM_KWP,
+  TARIFF_RS_PER_KWH,
+  CO2_KG_PER_KWH,
+  INSTALL_DATE,
+  LIFETIME,
+  SYSTEM_COST_RS,
+  MONTH_SHORT,
+  MONTH_LONG,
+  fmtRs,
+  fmtDate,
+  fmtHour,
+  typicalDayKwh,
 } from "./solarData";
 export type {
-  DayData, MonthData, YearData, MonthOutageSummary, YearOutageSummary,
-  TomorrowForecast, CleaningNudge,
+  DayData,
+  MonthData,
+  YearData,
+  MonthOutageSummary,
+  YearOutageSummary,
+  TomorrowForecast,
+  CleaningNudge,
 } from "./solarData";
 export type { OutageEvent };

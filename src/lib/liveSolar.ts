@@ -3,11 +3,22 @@
 // the UI awaits `prefetchFor()` before changing period, then reads cache.
 
 import {
-  _overrideSystem, expectedClearCurve, curveWindowKwh, daylightOverlapHours,
-  typicalDayKwh, SYSTEM_KWP, CO2_KG_PER_KWH, TARIFF_RS_PER_KWH,
+  _overrideSystem,
+  expectedClearCurve,
+  curveWindowKwh,
+  daylightOverlapHours,
+  typicalDayKwh,
+  SYSTEM_KWP,
+  CO2_KG_PER_KWH,
+  TARIFF_RS_PER_KWH,
 } from "./solarData";
 import type {
-  DayData, MonthData, YearData, OutageEvent, MonthOutageSummary, YearOutageSummary,
+  DayData,
+  MonthData,
+  YearData,
+  OutageEvent,
+  MonthOutageSummary,
+  YearOutageSummary,
 } from "./solarData";
 import * as api from "./shineClient";
 
@@ -32,10 +43,18 @@ const meta = {
   tariffDefault: 0,
 };
 
-export function getCity() { return meta.city; }
-export function getStatusInfo() { return { label: meta.statusLabel, ok: meta.statusOk }; }
-export function getUpdatedAt() { return meta.updatedAt; }
-export function getLiveTariffDefault() { return meta.tariffDefault; }
+export function getCity() {
+  return meta.city;
+}
+export function getStatusInfo() {
+  return { label: meta.statusLabel, ok: meta.statusOk };
+}
+export function getUpdatedAt() {
+  return meta.updatedAt;
+}
+export function getLiveTariffDefault() {
+  return meta.tariffDefault;
+}
 
 // Latest 5-min reading from today's curve — the "Producing now" figure.
 export function liveCurrentKw(): number | null {
@@ -54,7 +73,10 @@ export function liveCurrentKw(): number | null {
 
 function hashStr(s: string): number {
   let h = 2166136261;
-  for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); }
+  for (let i = 0; i < s.length; i++) {
+    h ^= s.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
   return h >>> 0;
 }
 
@@ -103,7 +125,16 @@ export function liveDayData(date: Date, tariff = TARIFF_RS_PER_KWH): DayData {
   const raw = rawCurveCache.get(key);
   if (!raw) {
     // Not prefetched — caller should have awaited prefetchLiveDay; render zeros.
-    return { kwh: 0, curve: new Array(24).fill(0), peakKw: 0, peakTime: "--:--", savedRs: 0, sunHours: 0, co2Kg: 0, percentile: 0 };
+    return {
+      kwh: 0,
+      curve: new Array(24).fill(0),
+      peakKw: 0,
+      peakTime: "--:--",
+      savedRs: 0,
+      sunHours: 0,
+      co2Kg: 0,
+      percentile: 0,
+    };
   }
   const d = buildDayData(raw, tariff, key);
   dayCache.set(key, d);
@@ -139,7 +170,8 @@ export async function prefetchLiveMonth(year: number, month: number): Promise<vo
 
 export function liveMonthData(year: number, month: number, tariff = TARIFF_RS_PER_KWH): MonthData {
   const m = monthCache.get(`${year}-${month}`);
-  if (!m) return { kwh: 0, savedRs: 0, co2Kg: 0, percentile: 0, days: [], bestDay: { day: 1, kwh: 0 } };
+  if (!m)
+    return { kwh: 0, savedRs: 0, co2Kg: 0, percentile: 0, days: [], bestDay: { day: 1, kwh: 0 } };
   return { ...m, savedRs: round0(m.kwh * tariff) };
 }
 
@@ -167,7 +199,15 @@ export async function prefetchLiveYear(year: number): Promise<void> {
 
 export function liveYearData(year: number, tariff = TARIFF_RS_PER_KWH): YearData {
   const y = yearCache.get(year);
-  if (!y) return { kwh: 0, savedRs: 0, co2Kg: 0, percentile: 0, months: [], bestMonth: { month: 0, kwh: 0 } };
+  if (!y)
+    return {
+      kwh: 0,
+      savedRs: 0,
+      co2Kg: 0,
+      percentile: 0,
+      months: [],
+      bestMonth: { month: 0, kwh: 0 },
+    };
   return { ...y, savedRs: round0(y.kwh * tariff) };
 }
 
@@ -180,8 +220,10 @@ export async function prefetchLiveOutageDays(year: number, month: number): Promi
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const inst = installDateRef;
   const isCurrent = now.getFullYear() === year && now.getMonth() === month;
-  const isFuture = year > now.getFullYear() || (year === now.getFullYear() && month > now.getMonth());
-  const beforeInstall = year < inst.getFullYear() || (year === inst.getFullYear() && month < inst.getMonth());
+  const isFuture =
+    year > now.getFullYear() || (year === now.getFullYear() && month > now.getMonth());
+  const beforeInstall =
+    year < inst.getFullYear() || (year === inst.getFullYear() && month < inst.getMonth());
   const lastDay = isFuture || beforeInstall ? 0 : isCurrent ? now.getDate() : daysInMonth;
   const firstDay = year === inst.getFullYear() && month === inst.getMonth() ? inst.getDate() : 1;
 
@@ -198,7 +240,8 @@ export async function prefetchLiveOutageDays(year: number, month: number): Promi
 export async function prefetchLiveOutageDaysYear(year: number): Promise<void> {
   const now = new Date();
   const inst = installDateRef;
-  const lastMonth = year === now.getFullYear() ? now.getMonth() : year < now.getFullYear() ? 11 : -1;
+  const lastMonth =
+    year === now.getFullYear() ? now.getMonth() : year < now.getFullYear() ? 11 : -1;
   const firstMonth = year === inst.getFullYear() ? inst.getMonth() : 0;
   for (let m = firstMonth; m <= lastMonth; m++) {
     await prefetchLiveOutageDays(year, m);
@@ -289,31 +332,53 @@ export function liveDayOutages(date: Date, tariff = TARIFF_RS_PER_KWH): OutageEv
         const lastH = raw.length ? hourFloat(raw[raw.length - 1].date) : DAYLIGHT_END;
         end = Math.max(w.startH, Math.min(DAYLIGHT_END, lastH));
       }
-      const lost = Math.max(0, curveWindowKwh(expected, w.startH, end) - actualWindowKwh(raw, w.startH, end));
+      const lost = Math.max(
+        0,
+        curveWindowKwh(expected, w.startH, end) - actualWindowKwh(raw, w.startH, end)
+      );
       const lostKwh = round1(lost);
-      return { startH: w.startH, endH: ongoing ? null : end, lostKwh, lostRs: round0(lostKwh * tariff) };
+      return {
+        startH: w.startH,
+        endH: ongoing ? null : end,
+        lostKwh,
+        lostRs: round0(lostKwh * tariff),
+      };
     }
     // No curve cached yet: fall back to the alarm's clear time (usually a big
     // underestimate) or a 30-minute estimate when it never cleared.
     const alarmEnd = w.endH != null ? (w.endH as number) : isToday ? nowH : w.startH + 0.5;
     const lost = Math.max(0, curveWindowKwh(expected, w.startH, alarmEnd));
     const lostKwh = round1(lost);
-    return { startH: w.startH, endH: w.endH == null && isToday ? null : alarmEnd, lostKwh, lostRs: round0(lostKwh * tariff) };
+    return {
+      startH: w.startH,
+      endH: w.endH == null && isToday ? null : alarmEnd,
+      lostKwh,
+      lostRs: round0(lostKwh * tariff),
+    };
   });
 }
 
-export function liveMonthOutages(year: number, month: number, tariff = TARIFF_RS_PER_KWH): MonthOutageSummary {
+export function liveMonthOutages(
+  year: number,
+  month: number,
+  tariff = TARIFF_RS_PER_KWH
+): MonthOutageSummary {
   const now = new Date();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const inst = installDateRef;
   const isCurrent = now.getFullYear() === year && now.getMonth() === month;
-  const isFuture = year > now.getFullYear() || (year === now.getFullYear() && month > now.getMonth());
-  const beforeInstall = year < inst.getFullYear() || (year === inst.getFullYear() && month < inst.getMonth());
+  const isFuture =
+    year > now.getFullYear() || (year === now.getFullYear() && month > now.getMonth());
+  const beforeInstall =
+    year < inst.getFullYear() || (year === inst.getFullYear() && month < inst.getMonth());
   const lastDay = isFuture || beforeInstall ? 0 : isCurrent ? now.getDate() : daysInMonth;
   const firstDay = year === inst.getFullYear() && month === inst.getMonth() ? inst.getDate() : 1;
 
   const affectedDays: number[] = [];
-  let count = 0, totalHours = 0, lostKwh = 0, lostRs = 0;
+  let count = 0,
+    totalHours = 0,
+    lostKwh = 0,
+    lostRs = 0;
   for (let d = firstDay; d <= lastDay; d++) {
     const events = liveDayOutages(new Date(year, month, d), tariff);
     if (events.length === 0) continue;
@@ -326,17 +391,28 @@ export function liveMonthOutages(year: number, month: number, tariff = TARIFF_RS
       lostRs += e.lostRs;
     }
   }
-  return { count, totalHours: round1(totalHours), lostKwh: round1(lostKwh), lostRs: round0(lostRs), affectedDays };
+  return {
+    count,
+    totalHours: round1(totalHours),
+    lostKwh: round1(lostKwh),
+    lostRs: round0(lostRs),
+    affectedDays,
+  };
 }
 
 export function liveYearOutages(year: number, tariff = TARIFF_RS_PER_KWH): YearOutageSummary {
   const now = new Date();
   const inst = installDateRef;
-  const lastMonth = year === now.getFullYear() ? now.getMonth() : year < now.getFullYear() ? 11 : -1;
+  const lastMonth =
+    year === now.getFullYear() ? now.getMonth() : year < now.getFullYear() ? 11 : -1;
   const firstMonth = year === inst.getFullYear() ? inst.getMonth() : 0;
 
   const affectedMonths: number[] = [];
-  let count = 0, totalHours = 0, lostKwh = 0, lostRs = 0, daylightOutageHours = 0;
+  let count = 0,
+    totalHours = 0,
+    lostKwh = 0,
+    lostRs = 0,
+    daylightOutageHours = 0;
   for (let m = firstMonth; m <= lastMonth; m++) {
     const ms = liveMonthOutages(year, m, tariff);
     count += ms.count;
@@ -355,16 +431,27 @@ export function liveYearOutages(year: number, tariff = TARIFF_RS_PER_KWH): YearO
   const start = Math.max(startOfDayMs(new Date(year, 0, 1)), startOfDayMs(inst));
   const end = Math.min(startOfDayMs(now), startOfDayMs(new Date(year, 11, 31)));
   const elapsedDays = end >= start ? Math.round((end - start) / DAY_MS) + 1 : 0;
-  const uptimePct = elapsedDays > 0 ? round1(Math.max(0, (1 - daylightOutageHours / (elapsedDays * 13)) * 100)) : 100;
+  const uptimePct =
+    elapsedDays > 0
+      ? round1(Math.max(0, (1 - daylightOutageHours / (elapsedDays * 13)) * 100))
+      : 100;
 
-  return { count, totalHours: round1(totalHours), lostKwh: round1(lostKwh), lostRs: round0(lostRs), affectedMonths, uptimePct };
+  return {
+    count,
+    totalHours: round1(totalHours),
+    lostKwh: round1(lostKwh),
+    lostRs: round0(lostRs),
+    affectedMonths,
+    uptimePct,
+  };
 }
 
 /* ── cleaning nudge (last 7 cached days vs clear-day expected) ── */
 
 export function liveCleaningNudge(): { belowPct: number; deficitPct: number } | null {
   const now = new Date();
-  let actual = 0, expected = 0;
+  let actual = 0,
+    expected = 0;
   for (let i = 1; i <= 7; i++) {
     const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() - i);
     actual += liveDayData(d).kwh;

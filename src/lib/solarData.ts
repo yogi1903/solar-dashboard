@@ -282,7 +282,7 @@ export function getDayOutages(date: Date, tariff = TARIFF_RS_PER_KWH): OutageEve
     const end = w.endH ?? nowH;
     const lost = Math.max(
       0,
-      curveWindowKwh(expected, w.startH, end) - curveWindowKwh(actual, w.startH, end),
+      curveWindowKwh(expected, w.startH, end) - curveWindowKwh(actual, w.startH, end)
     );
     const lostKwh = round1(lost);
     return { startH: w.startH, endH: w.endH, lostKwh, lostRs: round0(lostKwh * tariff) };
@@ -297,11 +297,16 @@ export interface MonthOutageSummary {
   affectedDays: number[]; // day-of-month, days with ≥1 event
 }
 
-export function getMonthOutages(year: number, month: number, tariff = TARIFF_RS_PER_KWH): MonthOutageSummary {
+export function getMonthOutages(
+  year: number,
+  month: number,
+  tariff = TARIFF_RS_PER_KWH
+): MonthOutageSummary {
   const now = new Date();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const isCurrent = now.getFullYear() === year && now.getMonth() === month;
-  const isFuture = year > now.getFullYear() || (year === now.getFullYear() && month > now.getMonth());
+  const isFuture =
+    year > now.getFullYear() || (year === now.getFullYear() && month > now.getMonth());
   const beforeInstall =
     year < INSTALL_DATE.getFullYear() ||
     (year === INSTALL_DATE.getFullYear() && month < INSTALL_DATE.getMonth());
@@ -328,7 +333,13 @@ export function getMonthOutages(year: number, month: number, tariff = TARIFF_RS_
       lostRs += e.lostRs;
     }
   }
-  return { count, totalHours: round1(totalHours), lostKwh: round1(lostKwh), lostRs: round0(lostRs), affectedDays };
+  return {
+    count,
+    totalHours: round1(totalHours),
+    lostKwh: round1(lostKwh),
+    lostRs: round0(lostRs),
+    affectedDays,
+  };
 }
 
 export interface YearOutageSummary {
@@ -349,8 +360,7 @@ export function getYearOutages(year: number, tariff = TARIFF_RS_PER_KWH): YearOu
   const now = new Date();
   const lastMonth =
     year === now.getFullYear() ? now.getMonth() : year < now.getFullYear() ? 11 : -1;
-  const firstMonth =
-    year === INSTALL_DATE.getFullYear() ? INSTALL_DATE.getMonth() : 0;
+  const firstMonth = year === INSTALL_DATE.getFullYear() ? INSTALL_DATE.getMonth() : 0;
 
   const affectedMonths: number[] = [];
   let count = 0;
@@ -406,7 +416,11 @@ export function getTomorrowForecast(): TomorrowForecast {
   t.setDate(t.getDate() + 1);
   const roll = rand(`forecast-${t.getFullYear()}-${t.getMonth()}-${t.getDate()}`)();
   const seasonal = SEASON[t.getMonth()];
-  const build = (condition: TomorrowForecast["condition"], factor: number, note: string): TomorrowForecast => {
+  const build = (
+    condition: TomorrowForecast["condition"],
+    factor: number,
+    note: string
+  ): TomorrowForecast => {
     const expectedKwh = round1(SYSTEM_KWP * 4.9 * seasonal * factor);
     return { condition, expectedKwh, kwh: expectedKwh, note };
   };
@@ -439,10 +453,33 @@ export function getCleaningNudge(): CleaningNudge | null {
   return { belowPct, deficitPct: belowPct };
 }
 
-export const MONTH_SHORT = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+export const MONTH_SHORT = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
 export const MONTH_LONG = [
-  "January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December",
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
 ];
 
 export const fmtRs = (n: number) => `₹${n.toLocaleString("en-IN")}`;
