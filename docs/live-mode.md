@@ -86,7 +86,7 @@ Note: `queryPlantActiveOuputPowerOneDay` (sic — "Ouput") is the vendor's actua
 - **Window:** `gts` (happen time) → `cts` (clear time); empty `cts` = ongoing. A `cts` that is not after `gts` is treated as ongoing (defensive).
 - **Merge:** events on the same day less than **10 minutes apart** merge into one window — debounces grid flicker.
 - **Ongoing events:** only meaningful today (end = now); a _past_ event missing `cts` is estimated at 30 minutes.
-- **Loss estimate:** `lost kWh ≈ ∫ expectedClearCurve(date) over [start, end]` — the **analytic clear-day curve only**; actual generation during the window is _not_ subtracted (datalogger gaps make "actual" unreliable mid-outage). `lost ₹ = lost kWh × tariff`, always labeled "≈". Amber, not red — a grid outage is not the plant's fault.
+- **Loss estimate:** `lost kWh ≈ ∫ expectedClearCurve(date) over [start, end] − actual kWh in the window` — expected minus actual (clamped ≥ 0). When no day curve is cached (datalogger gaps mid-outage), it falls back to the alarm's clear time with a clear-day estimate. `lost ₹ = lost kWh × tariff`, always labeled "≈". Amber, not red — a grid outage is not the plant's fault.
 - **"No production impact":** loss is rounded to 0.1 kWh. Night outages (expected curve = 0) and very short outages (sub-minute → expected energy in the window rounds to 0.0) both estimate ≈0, so the UI shows "No production impact" instead of a meaningless ₹0 figure.
 - **Year uptime:** `(1 − daylightOutageHours / (elapsedDays × 13)) × 100` — assumes 13 daylight hours/day; only daylight overlap counts.
 
@@ -95,6 +95,6 @@ Note: `queryPlantActiveOuputPowerOneDay` (sic — "Ouput") is the vendor's actua
 - **Percentile is a placeholder** — deterministic hash (`58 + hash % 37`), not real fleet benchmarking; same in both modes.
 - **Tomorrow's forecast is an estimate** — `getTomorrowForecast` is the mock heuristic in both modes; no weather API wired yet.
 - **Cleaning nudge uses the analytic expected curve** — last 7 cached days' actual kWh vs `typicalDayKwh`; fires below 88% of expected. Not weather-adjusted, so a cloudy week can false-trigger.
-- **Outage loss uses the expected-only curve** — actual generation during the window is not subtracted, so a cloudy-day outage slightly _overestimates_ loss.
+- **Outage loss is expected − actual** — actual generation in the window is subtracted where a cached curve exists; the clear-time fallback (no curve) can _underestimate_ long outages.
 - **History depth:** warning fetch capped at 600 rows; day curves are 5-min granularity (hourly means shown in UI; no sub-hourly resolution).
 - **One plant, one account** — no multi-plant switching in live mode (see Phase 3 multi-site switcher).
