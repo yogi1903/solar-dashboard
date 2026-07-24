@@ -38,18 +38,28 @@ export default function SettingsPanel({ tariff, onTariffChange }: Props) {
   return (
     <div className="space-y-4">
       {/* Tariff */}
-      <div className="bg-white rounded-[18px] shadow-[0_2px_14px_rgba(13,32,29,0.05)] border p-5" style={{ borderColor: BORDER }}>
-        <p className="text-[12px] font-medium tracking-wide" style={{ color: MUTED }}>Your electricity tariff</p>
+      <div
+        className="bg-white rounded-[18px] shadow-[0_2px_14px_rgba(13,32,29,0.05)] border p-5"
+        style={{ borderColor: BORDER }}
+      >
+        <p className="text-[12px] font-medium tracking-wide" style={{ color: MUTED }}>
+          Your electricity tariff
+        </p>
         <p className="mt-1 text-[13px] leading-snug" style={{ color: FAINT }}>
-          We use this to convert every kWh your plant generates into rupees saved. Check your latest electricity bill
-          for your per-unit rate.
+          We use this to convert every kWh your plant generates into rupees saved. Check your latest
+          electricity bill for your per-unit rate.
         </p>
         <div className="mt-4 flex items-center gap-3">
           <div
             className="flex flex-1 items-center rounded-[14px] border px-4 py-3 focus-within:ring-2"
-            style={{ borderColor: dirty ? DEEP_GOLD : BORDER, ["--tw-ring-color" as string]: PALE_GOLD }}
+            style={{
+              borderColor: dirty ? DEEP_GOLD : BORDER,
+              ["--tw-ring-color" as string]: PALE_GOLD,
+            }}
           >
-            <span className="text-[18px] font-medium mr-1" style={{ color: MUTED }}>₹</span>
+            <span className="text-[18px] font-medium mr-1" style={{ color: MUTED }}>
+              ₹
+            </span>
             <input
               data-testid="tariff-input"
               type="number"
@@ -62,7 +72,9 @@ export default function SettingsPanel({ tariff, onTariffChange }: Props) {
               style={{ fontFamily: DISPLAY, color: INK }}
               aria-label="Tariff in rupees per kWh"
             />
-            <span className="text-[13px] whitespace-nowrap" style={{ color: FAINT }}>/ kWh</span>
+            <span className="text-[13px] whitespace-nowrap" style={{ color: FAINT }}>
+              / kWh
+            </span>
           </div>
           <button
             data-testid="tariff-save-button"
@@ -75,16 +87,24 @@ export default function SettingsPanel({ tariff, onTariffChange }: Props) {
           </button>
         </div>
         {!valid && draft !== "" && (
-          <p className="mt-2 text-[12px]" style={{ color: "#b3241a" }}>Enter a valid rate between 0 and 100.</p>
+          <p className="mt-2 text-[12px]" style={{ color: "#b3241a" }}>
+            Enter a valid rate between 0 and 100.
+          </p>
         )}
         <p className="mt-3 text-[12px]" style={{ color: FAINT }}>
-          Currently applied: {fmtRs(tariff)} per kWh · changes apply to all views and reports instantly.
+          Currently applied: {fmtRs(tariff)} per kWh · changes apply to all views and reports
+          instantly.
         </p>
       </div>
 
       {/* System info (read-only) */}
-      <div className="bg-white rounded-[18px] shadow-[0_2px_14px_rgba(13,32,29,0.05)] border p-5" style={{ borderColor: BORDER }}>
-        <p className="text-[12px] font-medium tracking-wide mb-3" style={{ color: MUTED }}>Your system</p>
+      <div
+        className="bg-white rounded-[18px] shadow-[0_2px_14px_rgba(13,32,29,0.05)] border p-5"
+        style={{ borderColor: BORDER }}
+      >
+        <p className="text-[12px] font-medium tracking-wide mb-3" style={{ color: MUTED }}>
+          Your system
+        </p>
         <div className="space-y-3">
           {[
             ["Capacity", `${SYSTEM_KWP} kW rooftop`],
@@ -94,16 +114,25 @@ export default function SettingsPanel({ tariff, onTariffChange }: Props) {
             ["Monitoring", "ShineMonitor · live"],
           ].map(([k, v]) => (
             <div key={k} className="flex items-center justify-between">
-              <span className="text-[14px]" style={{ color: MUTED }}>{k}</span>
-              <span className="text-[14px] font-medium" style={{ color: INK }}>{v}</span>
+              <span className="text-[14px]" style={{ color: MUTED }}>
+                {k}
+              </span>
+              <span className="text-[14px] font-medium" style={{ color: INK }}>
+                {v}
+              </span>
             </div>
           ))}
         </div>
       </div>
 
       {/* Support */}
-      <div className="bg-white rounded-[18px] shadow-[0_2px_14px_rgba(13,32,29,0.05)] border p-5" style={{ borderColor: BORDER }}>
-        <p className="text-[12px] font-medium tracking-wide mb-3" style={{ color: MUTED }}>Support</p>
+      <div
+        className="bg-white rounded-[18px] shadow-[0_2px_14px_rgba(13,32,29,0.05)] border p-5"
+        style={{ borderColor: BORDER }}
+      >
+        <p className="text-[12px] font-medium tracking-wide mb-3" style={{ color: MUTED }}>
+          Support
+        </p>
         <div className="space-y-3">
           {[
             ["Service helpline", "1800-XXX-XXXX"],
@@ -111,8 +140,12 @@ export default function SettingsPanel({ tariff, onTariffChange }: Props) {
             ["App version", "1.0.0"],
           ].map(([k, v]) => (
             <div key={k} className="flex items-center justify-between">
-              <span className="text-[14px]" style={{ color: MUTED }}>{k}</span>
-              <span className="text-[14px] font-medium" style={{ color: TEAL }}>{v}</span>
+              <span className="text-[14px]" style={{ color: MUTED }}>
+                {k}
+              </span>
+              <span className="text-[14px] font-medium" style={{ color: TEAL }}>
+                {v}
+              </span>
             </div>
           ))}
         </div>

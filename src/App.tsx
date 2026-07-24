@@ -1,6 +1,6 @@
-import { Routes, Route } from 'react-router'
-import { Toaster } from '@/components/ui/sonner'
-import Home from './pages/Home'
+import { Routes, Route } from "react-router";
+import { Toaster } from "@/components/ui/sonner";
+import Home from "./pages/Home";
 
 export default function App() {
   return (
@@ -10,5 +10,5 @@ export default function App() {
       </Routes>
       <Toaster position="top-center" richColors={false} />
     </>
-  )
+  );
 }

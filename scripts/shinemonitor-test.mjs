@@ -78,7 +78,9 @@ const plantList = plants?.dat?.plant ?? [];
 const validIds = new Set(plantList.map((p) => String(p.pid ?? p.plantid)));
 if (!PLANT_ID || !validIds.has(String(PLANT_ID))) {
   if (PLANT_ID && !validIds.has(String(PLANT_ID))) {
-    console.log(`\n⚠ SHINEMONITOR_PLANT_ID=${PLANT_ID} not in account list — using first plant instead.`);
+    console.log(
+      `\n⚠ SHINEMONITOR_PLANT_ID=${PLANT_ID} not in account list — using first plant instead.`
+    );
   }
   PLANT_ID = plantList[0]?.pid ?? plantList[0]?.plantid;
 }
@@ -92,9 +94,41 @@ console.log(`\nUsing plantid=${PLANT_ID}`);
 const today = new Date().toISOString().slice(0, 10);
 
 show("Plant info", await call(`&action=queryPlantInfo&plantid=${PLANT_ID}`, secret, token), 800);
-show("Summary (today/month/year/total)", await call(`&action=queryPlantCurrentData&plantid=${PLANT_ID}&par=ENERGY_TODAY,ENERGY_MONTH,ENERGY_YEAR,ENERGY_TOTAL`, secret, token), 800);
-show("Day power curve", await call(`&action=queryPlantActiveOuputPowerOneDay&plantid=${PLANT_ID}&date=${today}`, secret, token), 900);
-show("Daily energy this month", await call(`&action=queryPlantEnergyMonthPerDay&plantid=${PLANT_ID}&date=${today.slice(0, 7)}`, secret, token), 800);
-show("Alarms (outage source)", await call(`&action=queryPlantWarning&plantid=${PLANT_ID}&i18n=en_US&page=0&pagesize=5`, secret, token), 900);
+show(
+  "Summary (today/month/year/total)",
+  await call(
+    `&action=queryPlantCurrentData&plantid=${PLANT_ID}&par=ENERGY_TODAY,ENERGY_MONTH,ENERGY_YEAR,ENERGY_TOTAL`,
+    secret,
+    token
+  ),
+  800
+);
+show(
+  "Day power curve",
+  await call(
+    `&action=queryPlantActiveOuputPowerOneDay&plantid=${PLANT_ID}&date=${today}`,
+    secret,
+    token
+  ),
+  900
+);
+show(
+  "Daily energy this month",
+  await call(
+    `&action=queryPlantEnergyMonthPerDay&plantid=${PLANT_ID}&date=${today.slice(0, 7)}`,
+    secret,
+    token
+  ),
+  800
+);
+show(
+  "Alarms (outage source)",
+  await call(
+    `&action=queryPlantWarning&plantid=${PLANT_ID}&i18n=en_US&page=0&pagesize=5`,
+    secret,
+    token
+  ),
+  900
+);
 
 console.log("\n✓ Connectivity test complete.");

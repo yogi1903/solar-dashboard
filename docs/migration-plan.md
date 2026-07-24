@@ -4,14 +4,14 @@
 
 ## Compatibility summary
 
-| Layer | Compatibility | Notes |
-|---|---|---|
-| Design system | ~100% | Same palette (`--brand-*` = `--gt-*`), fonts, radii, shadows |
-| UI components | ~80% | JSX/logic reusable; TS → JS conversion needed |
-| PDF reports (jsPDF) | 100% | Client-side, portable as-is |
-| Mock data layer | 0% | Replaced by API; its function shapes become the API contract |
-| Routing / shell | ~40% | Merges into Alliance nav (glass topbar + role-aware tabs) |
-| Backend | new module | Fits FastAPI/Postgres/RQ/APScheduler patterns |
+| Layer               | Compatibility | Notes                                                        |
+| ------------------- | ------------- | ------------------------------------------------------------ |
+| Design system       | ~100%         | Same palette (`--brand-*` = `--gt-*`), fonts, radii, shadows |
+| UI components       | ~80%          | JSX/logic reusable; TS → JS conversion needed                |
+| PDF reports (jsPDF) | 100%          | Client-side, portable as-is                                  |
+| Mock data layer     | 0%            | Replaced by API; its function shapes become the API contract |
+| Routing / shell     | ~40%          | Merges into Alliance nav (glass topbar + role-aware tabs)    |
+| Backend             | new module    | Fits FastAPI/Postgres/RQ/APScheduler patterns                |
 
 ## Decisions
 
@@ -22,11 +22,13 @@
 ## Backend: new `monitoring` module (FastAPI)
 
 ### Tables (Alembic migration)
+
 - `plants` — user_id → plant SN / datalogger PN, system_kwp, tariff_rs_per_kwh, install_date, discom, location
 - `plant_day` — PK (plant_id, date): total_kwh, hourly_wh smallint[24], peak_kw, sun_hours (~150 B/plant/day; ~55 KB/plant/year)
 - `outage_events` — plant_id, alarm_code, description, happen_ts, disappear_ts (null = ongoing), est_lost_kwh, est_lost_rs
 
 ### Endpoints
+
 - `GET /api/monitoring/summary` — live power, today, status, percentile
 - `GET /api/monitoring/day?date=` — hourly curve + day stats + that day's outages
 - `GET /api/monitoring/month?year=&month=` — daily totals + outages
@@ -34,12 +36,14 @@
 - `PUT /api/monitoring/settings/tariff` — per-customer tariff (replaces localStorage)
 
 ### Ingestion (existing patterns)
+
 - RQ worker polls ShineMonitor per plant every 15 min: hourly kWh, live power, alarm list ("No utility fault" `0x00000009` → outage_events)
 - APScheduler nightly reconciliation finalizes the day (same pattern as existing nightly jobs)
 - Redis: live-power cache (15-min TTL) + rate limiting
 - Auth: existing JWT (HttpOnly cookie / Bearer); routes resolve user → plants
 
 ### Outage loss estimation (server-side)
+
 lost_kwh ≈ expected_curve(month, hour) × outage_hours − actual_kwh; lost_rs = lost_kwh × tariff. Night outage → 0. Stored on the event at close (disappear_ts set).
 
 ## Frontend port order
@@ -56,13 +60,13 @@ No changes: same Docker Compose services (+ worker load), same Caddy routing, sa
 
 ## Effort estimate (1 developer)
 
-| Workstream | Effort |
-|---|---|
-| TS→JS conversion + shell integration | 1–2 days |
-| FastAPI module + tables + endpoints | 2–3 days |
+| Workstream                             | Effort                        |
+| -------------------------------------- | ----------------------------- |
+| TS→JS conversion + shell integration   | 1–2 days                      |
+| FastAPI module + tables + endpoints    | 2–3 days                      |
 | ShineMonitor ingestion + outage events | 2–3 days (API-docs dependent) |
-| Auth wiring + QA + deploy | 1 day |
-| **Total** | **~1.5–2 weeks** |
+| Auth wiring + QA + deploy              | 1 day                         |
+| **Total**                              | **~1.5–2 weeks**              |
 
 ## Open questions for the owner
 

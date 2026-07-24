@@ -6,7 +6,7 @@ Guidance for AI coding agents working in this repository.
 
 Customer-facing **solar monitoring dashboard** ("Greentek Alliance · Solar Monitor") for
 residential and small-business solar plant owners in India. The audience is non-technical;
-the UI answers two questions: *"is my plant working?"* and *"how much am I saving?"*.
+the UI answers two questions: _"is my plant working?"_ and _"how much am I saving?"_.
 Design language: mobile-first, Apple-philosophy — one hero number per card, plain language
 (₹, kWh, "All good"), technical details tucked behind toggles.
 
@@ -86,7 +86,7 @@ Read it before touching anything under `src/lib/`. Two non-obvious rules from it
 
 - The vendor's endpoint name `queryPlantActiveOuputPowerOneDay` is misspelled ("Ouput") in
   the real API — **do not "fix" it**.
-- Outage loss is estimated from the *expected* clear-day curve only; always label it "≈";
+- Outage loss is estimated from the _expected_ clear-day curve only; always label it "≈";
   use amber (not red) for grid outages — a grid outage is not the plant's fault.
 
 ## Code organization
@@ -127,7 +127,7 @@ Imports use the `@/` alias → `./src` (configured in both `vite.config.ts` and
   sonner for toasts, named exports for components, default exports for pages.
 - Mobile-first: baseline width 390 px, tap targets ≥44 px, tables become stacked cards
   below 768 px, reduced-motion support, no `transition: all`.
-- Comments in the codebase are terse and explain *why* (e.g. ramp math in the curve
+- Comments in the codebase are terse and explain _why_ (e.g. ramp math in the curve
   builder) — keep that style.
 
 ## Security considerations

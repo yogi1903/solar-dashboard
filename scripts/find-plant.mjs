@@ -31,7 +31,10 @@ async function call(actionParams, secret, token) {
 }
 
 const auth = await call(`&action=auth&usr=${encodeURIComponent(USR)}&company-key=${KEY}`);
-if (auth.err !== 0) { console.error("Auth failed:", JSON.stringify(auth)); process.exit(1); }
+if (auth.err !== 0) {
+  console.error("Auth failed:", JSON.stringify(auth));
+  process.exit(1);
+}
 const { token, secret } = auth.dat;
 
 // Pull every plant (pagesize 100 covers all 65)

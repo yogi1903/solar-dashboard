@@ -1,6 +1,13 @@
 import {
-  SYSTEM_KWP, TARIFF_RS_PER_KWH,
-  LIFETIME, MONTH_LONG, MONTH_SHORT, fmtRs, fmtDate, INSTALL_DATE, getCity,
+  SYSTEM_KWP,
+  TARIFF_RS_PER_KWH,
+  LIFETIME,
+  MONTH_LONG,
+  MONTH_SHORT,
+  fmtRs,
+  fmtDate,
+  INSTALL_DATE,
+  getCity,
 } from "./data";
 import type { DayData, MonthData, YearData } from "./data";
 
@@ -47,7 +54,11 @@ export async function downloadReport(report: PeriodReport, tariff = TARIFF_RS_PE
   doc.text(`Residential rooftop · ${SYSTEM_KWP} kW · ${getCity()}`, margin, y + 15);
   doc.setFont("helvetica", "normal");
   doc.setTextColor(...MUTED);
-  doc.text(`Tariff ${fmtRs(tariff)}/kWh · Installed ${fmtDate(INSTALL_DATE)} · Generated ${fmtDate(new Date())}`, margin, y + 31);
+  doc.text(
+    `Tariff ${fmtRs(tariff)}/kWh · Installed ${fmtDate(INSTALL_DATE)} · Generated ${fmtDate(new Date())}`,
+    margin,
+    y + 31
+  );
   y += 58;
 
   const stats: [string, string][] =
@@ -64,16 +75,28 @@ export async function downloadReport(report: PeriodReport, tariff = TARIFF_RS_PE
         ? [
             ["Energy generated", `${report.data.kwh} kWh`],
             ["Money saved", fmtRs(report.data.savedRs)],
-            ["Best day", `${report.data.bestDay.day} ${MONTH_SHORT[report.month]} · ${report.data.bestDay.kwh} kWh`],
-            ["Daily average", `${Math.round((report.data.kwh / Math.max(report.data.days.length, 1)) * 10) / 10} kWh`],
+            [
+              "Best day",
+              `${report.data.bestDay.day} ${MONTH_SHORT[report.month]} · ${report.data.bestDay.kwh} kWh`,
+            ],
+            [
+              "Daily average",
+              `${Math.round((report.data.kwh / Math.max(report.data.days.length, 1)) * 10) / 10} kWh`,
+            ],
             ["CO2 avoided", `${report.data.co2Kg} kg`],
             ["Performance", `Better than ${report.data.percentile}% of similar plants`],
           ]
         : [
             ["Energy generated", `${report.data.kwh} kWh`],
             ["Money saved", fmtRs(report.data.savedRs)],
-            ["Best month", `${MONTH_LONG[report.data.bestMonth.month]} · ${report.data.bestMonth.kwh} kWh`],
-            ["Monthly average", `${Math.round((report.data.kwh / Math.max(report.data.months.length, 1)) * 10) / 10} kWh`],
+            [
+              "Best month",
+              `${MONTH_LONG[report.data.bestMonth.month]} · ${report.data.bestMonth.kwh} kWh`,
+            ],
+            [
+              "Monthly average",
+              `${Math.round((report.data.kwh / Math.max(report.data.months.length, 1)) * 10) / 10} kWh`,
+            ],
             ["CO2 avoided", `${report.data.co2Kg} kg`],
             ["Performance", `Better than ${report.data.percentile}% of similar plants`],
           ];
@@ -97,7 +120,11 @@ export async function downloadReport(report: PeriodReport, tariff = TARIFF_RS_PE
   doc.setTextColor(...MUTED);
   doc.setFontSize(9);
   const breakdownTitle =
-    report.kind === "day" ? "HOURLY GENERATION (kW)" : report.kind === "month" ? "DAILY GENERATION (kWh)" : "MONTHLY GENERATION (kWh)";
+    report.kind === "day"
+      ? "HOURLY GENERATION (kW)"
+      : report.kind === "month"
+        ? "DAILY GENERATION (kWh)"
+        : "MONTHLY GENERATION (kWh)";
   doc.text(breakdownTitle, margin, y);
   y += 16;
 
@@ -107,7 +134,9 @@ export async function downloadReport(report: PeriodReport, tariff = TARIFF_RS_PE
           .map((kw, h) => [`${String(h).padStart(2, "0")}:00`, `${kw}`] as [string, string])
           .filter(([, v]) => parseFloat(v) > 0)
       : report.kind === "month"
-        ? report.data.days.map((d) => [`${d.day} ${MONTH_SHORT[report.month]}`, `${d.kwh}`] as [string, string])
+        ? report.data.days.map(
+            (d) => [`${d.day} ${MONTH_SHORT[report.month]}`, `${d.kwh}`] as [string, string]
+          )
         : report.data.months.map((m) => [MONTH_LONG[m.month], `${m.kwh}`] as [string, string]);
 
   // Two-column table
@@ -135,7 +164,8 @@ export async function downloadReport(report: PeriodReport, tariff = TARIFF_RS_PE
   doc.setFontSize(8.5);
   doc.text(
     `Lifetime since installation: ${(LIFETIME.kwh / 1000).toFixed(1)} MWh · ${fmtRs(Math.round(LIFETIME.kwh * tariff))} saved · ${(LIFETIME.co2Kg / 1000).toFixed(1)} t CO2 avoided`,
-    margin, fy + 16
+    margin,
+    fy + 16
   );
   doc.text("Greentek India Limited · alliance.greentekindia.co.in", margin, fy + 30);
 
