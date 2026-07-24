@@ -33,11 +33,30 @@ npm run dev       # Vite dev server on port 3000 (proxy /shinemonitor → api.sh
 npm run build     # tsc -b && vite build  → dist/
 npm run preview   # serve the production build
 npm run lint      # eslint .
+npm run typecheck # tsc -b (no emit beyond tsbuildinfo)
+npm run test      # vitest run (unit + component tests)
+npm run test:watch / test:coverage
+npm run format / format:check   # prettier
 ```
 
-There is **no test framework** installed (no vitest/jest, no `test` script). "Tests" for the
-live data path are one-off Node scripts (see below). Verify changes with `npm run build`
-(type-check included) and `npm run lint`.
+## Quality gates (CONTRIBUTING.md is the full process)
+
+- **Tests:** Vitest 4 + React Testing Library, config in `vitest.config.ts` (separate from
+  `vite.config.ts` so tests skip the inspect-react plugin). Tests live next to the code
+  (`*.test.ts(x)`); the deterministic data layer in `src/lib/solarData.ts` is the main
+  unit-test target. Live-path checks remain the Node scripts below.
+- **Git hooks (husky):** pre-commit runs lint-staged (prettier + `eslint --fix` on staged
+  files), commit-msg runs commitlint (**Conventional Commits required** — `feat:`, `fix:`,
+  `chore:`, `docs:`, `test:`…), pre-push runs typecheck + tests.
+- **CI:** `.github/workflows/ci.yml` — format check → lint → typecheck → test → build on
+  every PR and push to `master`. Branch protection requires it green; squash-merge PRs,
+  no direct pushes to master. Dependabot weekly for npm + actions.
+- **Lint notes:** `eslint.config.js` disables `react-refresh/only-export-components` and
+  `react-hooks/purity` for the vendored shadcn files under `src/components/ui/**` only —
+  don't extend that exemption to app code. Prettier owns formatting via
+  `eslint-config-prettier`.
+
+Verify changes with `npm run lint`, `npm run typecheck`, `npm run test`, and `npm run build`.
 
 ## Verification scripts (`scripts/`)
 
