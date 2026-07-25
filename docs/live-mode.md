@@ -98,3 +98,12 @@ Note: `queryPlantActiveOuputPowerOneDay` (sic — "Ouput") is the vendor's actua
 - **Outage loss is expected − actual** — actual generation in the window is subtracted where a cached curve exists; the clear-time fallback (no curve) can _underestimate_ long outages.
 - **History depth:** warning fetch capped at 600 rows; day curves are 5-min granularity (hourly means shown in UI; no sub-hourly resolution).
 - **One plant, one account** — no multi-plant switching in live mode (see Phase 3 multi-site switcher).
+
+## Vendor quirks discovered server-side (2026-07-25, Alliance backfill)
+
+Full write-up: `memory/monitoring-gotchas.md` in the Greentek-Alliance repo.
+
+- **Concurrent auth is rejected** (`ERR_PASSWORD_VERIF_FAIL`) — the Alliance client authenticates under a process-wide lock with a double-checked shared token cache. Request rate itself tolerated 64 concurrent workers in testing.
+- **`ERR_NOT_FOUND_DEVICE_WARNING` means "zero warnings"**, not an error — treat as an empty list.
+- **Some warning rows omit `code`** — parse tolerantly and skip codeless rows (they're irrelevant to the `0x00000009` outage sync).
+- **HTTPS works** on `api.shinemonitor.com` — the dev proxy targets HTTPS; never use plain HTTP server-side.

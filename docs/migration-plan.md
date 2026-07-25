@@ -92,7 +92,37 @@ ago" instead of implying liveness it doesn't have.
   after N failures, skip the plant until the next cycle and report to GlitchTip.
   One bad plant must not stall the queue for others.
 - **Backfill (open question 3):** one-off idempotent RQ job per plant pulling
-  month/year aggregates, same upserts as polling.
+  month/year aggregates, same upserts as polling. (Built 2026-07-25:
+  `monitoring_backfill.py`, global (plant, day) work-queue.)
+
+### Expected-vs-actual (replaces outage detection as the customer story)
+
+**Decision (owner, 2026-07-25): defer outage _detection_ entirely.** Vendor alarms
+are unreliable for this fleet (dataloggers lose power during grid outages —
+zero-filled data makes "offline" indistinguishable from "outage"), and confident
+classification needs fleet correlation + hardware changes. Instead, the customer
+sees **expected vs actual generation** with plain-language possible reasons.
+
+- **Expected model:** daily expected kWh = plane-of-array irradiance × system_kwp
+  × performance ratio (~0.78, calibrate against fleet medians over time).
+- **Meteo source:** Open-Meteo (free, no key) — hourly GHI/DNI/cloud cover per
+  lat/lon, historical archive (powers backfill) + forecast (powers a real
+  tomorrow-forecast, replacing the mock heuristic). Plants get `lat`/`lon`
+  (geocode once from city; store on `plants`).
+- **New table:** `plant_day_expected` (or columns on `plant_day`): expected_kwh,
+  ghi_whm2, computed_at. Nightly job computes expected per plant-day; the same
+  job covers history on demand.
+- **Presentation (amber, always "≈"):** ratio ≥85% → "All good"; 60–85% → "A bit
+  low — clouds, dust, or a brief grid outage are the usual causes"; <60% →
+  "Well below expected — could be a grid outage, heavy dust, or a system issue;
+  if it continues, give us a call." No red, no outage claims.
+- **What stays:** alarm ingestion keeps running (harmless historical data, useful
+  if detection is ever revisited); `est_lost_*` computation and the UI's
+  "Grid outage" status label are **removed/deferred**; the cleaning nudge and
+  tomorrow forecast switch from mock heuristics to the meteo model.
+- **Also deferred (designed, unbuilt):** fleet-correlation outage inference,
+  stale-outage sweep, plant-offline classification, datalogger mini-UPS at
+  install time (hardware fix for alarm loss).
 
 ### Timezones
 
