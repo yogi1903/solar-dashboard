@@ -26,9 +26,16 @@
 - Technical details behind a collapsed toggle
 - Lifetime totals strip + referral prompt card
 
-## Phase 1.5 — Grid outage tracking ✅ APPROVED, next build
+## Phase 1.5 — Grid outage tracking ⏸ DEFERRED (2026-07-25)
 
-Source: ShineMonitor alarms — "No utility fault" (code `0x00000009`), `happen time` → `disappear time` (empty = ongoing).
+Replaced by **expected-vs-actual with meteo-based expected generation** (see
+migration-plan v2, "Expected-vs-actual" section). Rationale: dataloggers lose
+power during grid outages, making reliable detection impossible without fleet
+correlation + hardware; the customer story is the same ("is my plant OK?")
+without false certainty. Alarm data already collected stays in the DB if
+detection is ever revisited.
+
+Original spec kept for reference:
 
 - Each alarm = one **outage event**: start, end, downtime
 - **Lost energy ≈** expected generation for that window (plant's typical curve by month/hour) − actual; **lost ₹** = lost kWh × customer tariff. Always labeled "≈"
